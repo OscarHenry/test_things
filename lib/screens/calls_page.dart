@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:test_things/dto.dart';
-import 'package:test_things/notification_page.dart';
-import 'package:test_things/notification_widget.dart';
-
-import 'custom_appbar.dart';
-import 'device_item.dart';
+import 'package:test_things/model/dto.dart';
+import 'package:test_things/screens/notification_page.dart';
+import 'package:test_things/component/notification_widget.dart';
+import '../component/device_item.dart';
 
 final GlobalKey<AnimatedListState> devicesListKey =
     GlobalKey<AnimatedListState>();

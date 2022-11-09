@@ -2,10 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/animate_list.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:test_things/screens/login.dart';
-import 'package:test_things/styles/app_animations.dart';
 import 'package:collection/collection.dart';
 
 class NotificationPage extends StatefulWidget {

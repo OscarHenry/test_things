@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:test_things/c_timer.dart';
+import 'package:test_things/core/util/c_timer.dart';
 
 const timerDuration = 5;
 

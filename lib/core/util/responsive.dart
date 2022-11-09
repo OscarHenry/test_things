@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:test_things/styles/app_animations.dart';
+import 'package:test_things/core/styles/app_animations.dart';
 import 'package:universal_io/io.dart' show Platform;
 
 /// Type of Device
@@ -119,11 +119,11 @@ class ScreenUtil {
   static late double longestSide;
 
   /// This isMobile, isTablet, isDesktop help BreakPoints
-  static bool get isMobile => width < 768;
+  static bool get isMobile => shortestSide < 768;
 
-  static bool get isTablet => width < 1100 && width >= 768;
+  static bool get isTablet => shortestSide < 1100 && shortestSide >= 768;
 
-  static bool get isDesktop => width >= 1100;
+  static bool get isDesktop => shortestSide >= 1100;
 
   /// Sets the Screen's size and Device's Orientation,
   /// BoxConstraints, Height, and Width

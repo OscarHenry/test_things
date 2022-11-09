@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:test_things/model/dto.dart';
 
-import 'dto.dart';
 import 'notification_item.dart';
 
 final GlobalKey<AnimatedListState> notificationListKey =

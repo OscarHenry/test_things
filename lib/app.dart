@@ -2,22 +2,12 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:device_preview/device_preview.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:test_things/core/router/app_router.dart';
 import 'package:test_things/screens/home.dart';
 import 'package:test_things/screens/setting_page.dart';
 import 'package:uni_links/uni_links.dart';
-
-void main() {
-  runApp(
-    DevicePreview(
-      enabled: !kReleaseMode,
-      builder: (context) => const MyApp(),
-    ),
-  );
-}
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);

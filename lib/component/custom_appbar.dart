@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:test_things/notification_page.dart';
-import 'package:test_things/option_item.dart';
-
-import 'dto.dart';
+import 'package:test_things/model/dto.dart';
+import 'package:test_things/screens/notification_page.dart';
+import 'package:test_things/component/option_item.dart';
 
 class PersistentAppBarAnimated extends SliverPersistentHeaderDelegate {
   @override

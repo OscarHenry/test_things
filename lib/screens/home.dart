@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:test_things/calls_page.dart';
-import 'package:test_things/form_page.dart';
-import 'package:test_things/res.dart';
-import 'package:test_things/setting_page.dart';
-import 'package:test_things/timer_page.dart';
-import 'package:test_things/toogle_page.dart';
+import 'package:test_things/screens/calls_page.dart';
+import 'package:test_things/screens/form_page.dart';
+import 'package:test_things/core/res.dart';
+import 'package:test_things/screens/setting_page.dart';
+import 'package:test_things/screens/timer_page.dart';
+import 'package:test_things/screens/toogle_page.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);

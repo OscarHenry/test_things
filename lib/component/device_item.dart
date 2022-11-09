@@ -1,9 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:test_things/c_outlined_button.dart';
-
-import 'dto.dart';
+import 'package:test_things/model/dto.dart';
 
 class DeviceItem extends StatefulWidget {
   const DeviceItem({

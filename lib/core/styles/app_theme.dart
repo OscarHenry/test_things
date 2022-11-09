@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test_things/styles/custom_colors.dart';
+import 'package:test_things/core/styles/custom_colors.dart';
 
 /// global theme of app.
 
@@ -80,7 +80,8 @@ final appTheme = ThemeData.light().copyWith(
           MaterialStateColor.resolveWith(getColorFromMaterialState),
       backgroundColor: MaterialStateProperty.all(Colors.white),
       side: MaterialStateBorderSide.resolveWith(getBorderSideFromMaterialState),
-      fixedSize: MaterialStateProperty.all(Size(128, kMinInteractiveDimension)),
+      fixedSize:
+          MaterialStateProperty.all(const Size(128, kMinInteractiveDimension)),
     ),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(

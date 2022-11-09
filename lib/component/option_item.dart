@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:test_things/styles/app_animations.dart';
-import 'package:test_things/styles/app_dimensions.dart';
+import 'package:test_things/core/styles/app_animations.dart';
+import 'package:test_things/core/styles/app_dimensions.dart';
 
 class OptionItem extends HookWidget {
   const OptionItem({

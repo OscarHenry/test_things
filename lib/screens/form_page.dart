@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test_things/text_input_form_field.dart';
+import 'package:test_things/component/text_input_form_field.dart';
 
 class FormPage extends StatefulWidget {
   const FormPage({Key? key}) : super(key: key);

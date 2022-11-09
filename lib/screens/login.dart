@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
-import 'package:test_things/notification_page.dart';
-import 'package:test_things/responsive/responsive.dart';
-
-import 'package:test_things/styles/app_dimensions.dart';
+import 'package:test_things/core/styles/app_dimensions.dart';
+import 'package:test_things/screens/notification_page.dart';
+import 'package:test_things/core/util/responsive.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key, required this.state}) : super(key: key);

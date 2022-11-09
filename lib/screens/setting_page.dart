@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:test_things/styles/app_dimensions.dart';
-import 'package:test_things/text_input_form_field.dart';
+import 'package:test_things/component/text_input_form_field.dart';
+import 'package:test_things/core/styles/app_dimensions.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({Key? key}) : super(key: key);
