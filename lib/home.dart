@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:test_things/calls_page.dart';
+import 'package:test_things/form_page.dart';
+import 'package:test_things/res.dart';
+import 'package:test_things/setting_page.dart';
+import 'package:test_things/timer_page.dart';
+import 'package:test_things/toogle_page.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -16,25 +22,17 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     CallsPage(isHideBottomNavBar: (isHideBottomNavBar) {
       isHideBottomNavBar ? _controller.forward() : _controller.reverse();
     }),
-    CallsPage(isHideBottomNavBar: (isHideBottomNavBar) {
-      isHideBottomNavBar ? _controller.forward() : _controller.reverse();
-    }),
-    CallsPage(isHideBottomNavBar: (isHideBottomNavBar) {
-      isHideBottomNavBar ? _controller.forward() : _controller.reverse();
-    }),
-    CallsPage(isHideBottomNavBar: (isHideBottomNavBar) {
-      isHideBottomNavBar ? _controller.forward() : _controller.reverse();
-    }),
-    CallsPage(isHideBottomNavBar: (isHideBottomNavBar) {
-      isHideBottomNavBar ? _controller.forward() : _controller.reverse();
-    }),
+    const TimerPage(),
+    const TooglePage(),
+    const FormPage(),
+    const SettingPage(),
   ];
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
-        value: 1, vsync: this, duration: const Duration(milliseconds: 300));
+        value: 1, vsync: this, duration: const Duration(microseconds: 100));
   }
 
   @override
@@ -56,26 +54,28 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           landscapeLayout: BottomNavigationBarLandscapeLayout.linear,
           unselectedItemColor: Colors.blueGrey,
           fixedColor: Theme.of(context).primaryColor,
-          items: const <BottomNavigationBarItem>[
+          showSelectedLabels: true,
+          showUnselectedLabels: true,
+          items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.call),
-              label: 'Calls',
+              icon: SvgPicture.asset(Res.tab_bar_device_icon),
+              label: 'Device',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.camera),
-              label: 'Camera',
+              icon: SvgPicture.asset(Res.tab_bar_history_icon),
+              label: 'History',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.chat),
-              label: 'Chats',
+              icon: SvgPicture.asset(Res.tab_bar_chat_icon),
+              label: 'Chat',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.ac_unit),
-              label: 'Temp',
+              icon: SvgPicture.asset(Res.tab_bar_users_icon),
+              label: 'User',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
+              icon: SvgPicture.asset(Res.tab_bar_settings_icon),
+              label: 'Setting',
             ),
           ],
         ),

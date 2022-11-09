@@ -176,12 +176,13 @@ class Organization {
 }
 
 var organizations = <Organization>[
-  const Organization(name: 'UAT Shop'),
-  const Organization(name: 'AsTech Org'),
-  const Organization(name: 'Reparify Org'),
-  const Organization(name: 'Light House Technologies Org'),
-  const Organization(name: 'Flutter Comp'),
-  const Organization(name: 'Unicorn Dev'),
+  const Organization(name: '360 Complete Calibration - Concord'),
+  const Organization(name: '3M Center'),
+  const Organization(name: '518 Collision'),
+  const Organization(name: 'A-1 Body & Frame (DCF Collision Repair LLC)'),
+  const Organization(name: 'A Auto Body'),
+  const Organization(name: 'Absolute Collision Center-Monkey Junction'),
+  const Organization(name: 'BETA - ProCare - AMM Menchaca #1'),
 ];
 
 class Notification {
