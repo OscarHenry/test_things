@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:test_things/model/dto.dart';
-import 'package:test_things/screens/notification_page.dart';
 import 'package:test_things/component/option_item.dart';
 
 class PersistentAppBarAnimated extends SliverPersistentHeaderDelegate {
@@ -158,12 +157,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
       centerTitle: true,
       actions: [
         IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const NotificationPage()),
-            );
-          },
+          onPressed: () {},
           icon: const Icon(Icons.notifications_active_outlined),
         ),
       ],

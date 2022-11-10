@@ -6,5 +6,5 @@ const verticalSpace = SizedBox(height: defEdgeInsetValue);
 const horizontalSpace = SizedBox(
   width: defEdgeInsetValue,
 );
-const defRadiusValue = 6.0;
+const defRadiusValue = 8.0;
 final defRadiusCircular = BorderRadius.circular(defRadiusValue);

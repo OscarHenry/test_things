@@ -5,7 +5,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:test_things/core/router/app_router.dart';
-import 'package:test_things/screens/home.dart';
+import 'package:test_things/screens/login_page.dart';
 import 'package:test_things/screens/setting_page.dart';
 import 'package:uni_links/uni_links.dart';
 
@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const Home(),
+            builder: (context) => const LoginPage(),
           ),
         );
       }
@@ -73,7 +73,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     // initUniLinks();
     return MaterialApp.router(
-      title: 'Flutter Demo',
+      title: 'Test Things App',
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
       themeMode: ThemeMode.system,

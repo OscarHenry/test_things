@@ -1,126 +1,97 @@
 import 'package:flutter/material.dart';
 import 'package:test_things/core/styles/custom_colors.dart';
+import 'package:test_things/core/styles/fonts.dart';
 
 /// global theme of app.
 
-Color getColorFromMaterialState(Set<MaterialState> states) {
-  Color result = Colors.black;
-  states.forEach((state) {
-    switch (state) {
-      case MaterialState.hovered:
-        // result = Colors.black;
-        break;
-      case MaterialState.focused:
-        // result = Colors.black;
-        break;
-      case MaterialState.pressed:
-        // result = Colors.black;
-        break;
-      case MaterialState.dragged:
-        // result = Colors.white;
-        break;
-      case MaterialState.selected:
-        // result = Colors.white;
-        break;
-      case MaterialState.scrolledUnder:
-        // result = Colors.white;
-        break;
-      case MaterialState.disabled:
-        result = Colors.grey;
-        break;
-      case MaterialState.error:
-        // result = Colors.red;
-        break;
-    }
-  });
-  return result;
-}
-
-BorderSide getBorderSideFromMaterialState(Set<MaterialState> states) {
-  BorderSide result = const BorderSide(width: 1, color: Colors.black);
-  states.forEach((state) {
-    switch (state) {
-      case MaterialState.hovered:
-        // result = Colors.black;
-        break;
-      case MaterialState.focused:
-        // result = Colors.black;
-        break;
-      case MaterialState.pressed:
-        // result = Colors.black;
-        break;
-      case MaterialState.dragged:
-        // result = Colors.white;
-        break;
-      case MaterialState.selected:
-        // result = Colors.white;
-        break;
-      case MaterialState.scrolledUnder:
-        // result = Colors.white;
-        break;
-      case MaterialState.disabled:
-        result = const BorderSide(width: 1, color: Colors.grey);
-        break;
-      case MaterialState.error:
-        // result = Colors.red;
-        break;
-    }
-  });
-  return result;
-}
-
 final appTheme = ThemeData.light().copyWith(
+  colorScheme: ColorScheme.fromSwatch(
+    primarySwatch: convertToMaterialColor(CustomColorsHelper.primaryBlue),
+  ),
   progressIndicatorTheme: const ProgressIndicatorThemeData(
-    color: CustomColorsHelper.darkBlue,
+    color: CustomColorsHelper.primaryBlue,
     linearMinHeight: 4.0,
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
-    style: ButtonStyle(
-      foregroundColor:
-          MaterialStateColor.resolveWith(getColorFromMaterialState),
-      backgroundColor: MaterialStateProperty.all(Colors.white),
-      side: MaterialStateBorderSide.resolveWith(getBorderSideFromMaterialState),
-      fixedSize:
-          MaterialStateProperty.all(const Size(128, kMinInteractiveDimension)),
+    style: OutlinedButton.styleFrom(
+      backgroundColor: CustomColorsHelper.white,
+      fixedSize: const Size(128, kMinInteractiveDimension),
+      textStyle: TextStyles.titleBold14pts.apply(
+        color: CustomColorsHelper.darkGray2,
+      ),
+      side: const BorderSide(width: 1, color: CustomColorsHelper.darkGray2),
+      primary: CustomColorsHelper.darkGray2,
+      onSurface: CustomColorsHelper.darkGray2,
+      elevation: 0,
     ),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      primary: CustomColorsHelper.darkBlue,
+      primary: CustomColorsHelper.primaryBlue,
       fixedSize: const Size(128, kMinInteractiveDimension),
+      textStyle: TextStyles.titleBold14pts.apply(
+        color: CustomColorsHelper.white,
+      ),
+      elevation: 0,
+    ),
+  ),
+  textButtonTheme: TextButtonThemeData(
+    style: TextButton.styleFrom(
+      textStyle: TextStyles.titleRegular14pts,
+      elevation: 0,
     ),
   ),
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
-    fillColor: Colors.blueGrey.shade50,
+    fillColor: CustomColorsHelper.lightGray2,
     alignLabelWithHint: true,
-    contentPadding: const EdgeInsets.all(8.0),
-    constraints:
-        const BoxConstraints.tightFor(height: kMinInteractiveDimension),
+    hintStyle: TextStyles.titleRegular14pts.apply(
+      color: CustomColorsHelper.darkGray1,
+    ),
     border: const UnderlineInputBorder(
       borderSide: BorderSide(
-        color: Colors.black,
+        color: CustomColorsHelper.darkGray2,
       ),
     ),
     enabledBorder: const UnderlineInputBorder(
       borderSide: BorderSide(
-        color: Colors.black,
+        color: CustomColorsHelper.darkGray2,
       ),
     ),
     disabledBorder: const UnderlineInputBorder(
       borderSide: BorderSide(
-        color: Colors.black38,
+        color: CustomColorsHelper.lightGray2,
       ),
     ),
     errorBorder: const UnderlineInputBorder(
       borderSide: BorderSide(
-        color: Colors.red,
+        color: CustomColorsHelper.deepRose,
       ),
     ),
     focusedBorder: const UnderlineInputBorder(
       borderSide: BorderSide(
-        color: Colors.black,
+        color: CustomColorsHelper.primaryBlue,
+        width: 1.25,
       ),
     ),
   ),
+  textSelectionTheme: const TextSelectionThemeData(
+    cursorColor: CustomColorsHelper.darkGray2,
+  ),
 );
+
+MaterialColor convertToMaterialColor(Color color) {
+  final swatch = <int, Color>{
+    50: color.withOpacity(.1),
+    100: color.withOpacity(.2),
+    200: color.withOpacity(.3),
+    300: color.withOpacity(.4),
+    400: color.withOpacity(.5),
+    500: color.withOpacity(.6),
+    600: color.withOpacity(.7),
+    700: color.withOpacity(.8),
+    800: color.withOpacity(.9),
+    900: color.withOpacity(1),
+  };
+  return MaterialColor(color.value, swatch);
+}
