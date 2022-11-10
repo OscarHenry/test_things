@@ -1,17 +1,158 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:test_things/component/avatar/avatar.dart';
 import 'package:test_things/component/avatar/avatar_button.dart';
+import 'package:test_things/component/footer_app.dart';
 import 'package:test_things/core/router/app_router.dart';
 import 'package:test_things/core/styles/app_dimensions.dart';
+import 'package:test_things/core/styles/custom_colors.dart';
 import 'package:test_things/core/styles/fonts.dart';
 import 'package:test_things/core/util/responsive.dart';
 
 class AppScaffold extends StatelessWidget {
   const AppScaffold({Key? key, required this.child}) : super(key: key);
+  final Widget child;
 
+  @override
+  Widget build(BuildContext context) {
+    return Responsive(
+      mobile: _AppScaffoldMobile(child: child),
+      tablet: _AppScaffoldTablet(child: child),
+    );
+  }
+}
+
+class _AppScaffoldMobile extends StatelessWidget {
+  const _AppScaffoldMobile({Key? key, required this.child}) : super(key: key);
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final destinations = <NavigationDestination>[
+      NavigationDestination(
+        label: 'devices',
+        icon: SvgPicture.asset(
+          'assets/tab_bar_device_icon.svg',
+          width: 36,
+          color: Colors.black,
+        ),
+        selectedIcon: SvgPicture.asset(
+          'assets/tab_bar_device_icon.svg',
+          width: 36,
+          color: Colors.black,
+        ),
+      ),
+      NavigationDestination(
+        label: 'history',
+        icon: SvgPicture.asset(
+          'assets/tab_bar_history_icon.svg',
+          width: 36,
+          color: Colors.black,
+        ),
+        selectedIcon: SvgPicture.asset(
+          'assets/tab_bar_history_icon.svg',
+          width: 36,
+          color: Colors.black,
+        ),
+      ),
+      NavigationDestination(
+        label: 'chat',
+        icon: SvgPicture.asset(
+          width: 36,
+          'assets/tab_bar_chat_icon.svg',
+          color: Colors.black,
+        ),
+        selectedIcon: SvgPicture.asset(
+          'assets/tab_bar_chat_icon.svg',
+          width: 36,
+          color: Colors.black,
+        ),
+      ),
+      NavigationDestination(
+        label: 'users',
+        icon: SvgPicture.asset(
+          'assets/tab_bar_users_icon.svg',
+          width: 36,
+          color: Colors.black,
+        ),
+        selectedIcon: SvgPicture.asset(
+          'assets/tab_bar_users_icon.svg',
+          width: 36,
+          color: Colors.black,
+        ),
+      ),
+      NavigationDestination(
+        label: 'settings',
+        icon: SvgPicture.asset(
+          'assets/tab_bar_settings_icon.svg',
+          width: 36,
+          color: Colors.black,
+        ),
+        selectedIcon: SvgPicture.asset(
+          'assets/tab_bar_settings_icon.svg',
+          width: 36,
+          color: Colors.black,
+        ),
+      ),
+    ];
+    return Scaffold(
+      body: child,
+      bottomNavigationBar: NavigationBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+        surfaceTintColor: CustomColorsHelper.primaryBlue,
+        selectedIndex: _calculateSelectedIndex(context),
+        onDestinationSelected: (index) => _onItemTapped(index, context),
+        destinations: destinations,
+      ),
+    );
+  }
+
+  static int _calculateSelectedIndex(BuildContext context) {
+    final String location = GoRouterState.of(context).location;
+    if (location.startsWith(routeDevice)) {
+      return 0;
+    }
+    if (location.startsWith(routeHistory)) {
+      return 1;
+    }
+    if (location.startsWith(routeChat)) {
+      return 2;
+    }
+    if (location.startsWith(routeUser)) {
+      return 3;
+    }
+    if (location.startsWith(routeSetting)) {
+      return 4;
+    }
+    return 0;
+  }
+
+  void _onItemTapped(int index, BuildContext context) {
+    switch (index) {
+      case 0:
+        GoRouter.of(context).go(routeDevice);
+        break;
+      case 1:
+        GoRouter.of(context).go(routeHistory);
+        break;
+      case 2:
+        GoRouter.of(context).go(routeChat);
+        break;
+      case 3:
+        GoRouter.of(context).go(routeUser);
+        break;
+      case 4:
+        GoRouter.of(context).go(routeSetting);
+        break;
+    }
+  }
+}
+
+class _AppScaffoldTablet extends StatelessWidget {
+  const _AppScaffoldTablet({Key? key, required this.child}) : super(key: key);
   final Widget child;
   @override
   Widget build(BuildContext context) {
@@ -82,71 +223,64 @@ class AppScaffold extends StatelessWidget {
         ),
       ),
     ];
-
-    return Responsive(
-      mobile: Scaffold(
-        body: child,
-        bottomNavigationBar: NavigationBar(
-          backgroundColor: Colors.black,
-          elevation: 0,
-          selectedIndex: _calculateSelectedIndex(context),
-          onDestinationSelected: (index) => _onItemTapped(index, context),
-          destinations: destinations
-              .map<Widget>(
-                (e) => NavigationDestination(icon: e.icon, label: e.label),
-              )
-              .toList(),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: const Text('AppBar-Scaffold'),
+        centerTitle: true,
+        titleTextStyle: const TextStyle(color: Colors.white),
+        actions: [
+          AvatarButton(
+            text: '',
+            imagePath: 'https://picsum.photos/id/237/200/300',
+            onTap: () async {
+              _showMenuOptions(context);
+            },
+          ),
+        ],
       ),
-      tablet: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.black,
-          title: const Text('AppBar-Scaffold'),
-          centerTitle: true,
-          titleTextStyle: const TextStyle(color: Colors.white),
-          actions: [
-            AvatarButton(
-              text: '',
-              imagePath: 'https://picsum.photos/id/237/200/300',
-              onTap: () async {
-                _showMenuOptions(context);
-              },
+      body: Row(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          NavigationRail(
+            backgroundColor: Colors.black,
+            minWidth: 80,
+            useIndicator: true,
+            labelType: NavigationRailLabelType.all,
+            indicatorColor: CustomColorsHelper.primaryBlue,
+            selectedIconTheme:
+                const IconThemeData(color: CustomColorsHelper.white),
+            selectedLabelTextStyle:
+                const TextStyle(color: CustomColorsHelper.white),
+            unselectedIconTheme:
+                const IconThemeData(color: CustomColorsHelper.white),
+            unselectedLabelTextStyle:
+                const TextStyle(color: CustomColorsHelper.white),
+            destinations: destinations
+                .map<NavigationRailDestination>(
+                  (e) => NavigationRailDestination(
+                    icon: e.icon,
+                    label: Text(e.label),
+                    selectedIcon: e.selectedIcon,
+                  ),
+                )
+                .toList(),
+            selectedIndex: _calculateSelectedIndex(context),
+            onDestinationSelected: (index) => _onItemTapped(index, context),
+          ),
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(child: child),
+                const FooterApp(),
+              ],
             ),
-          ],
-        ),
-        body: Row(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            NavigationRail(
-              backgroundColor: Colors.black,
-              minWidth: 80,
-              useIndicator: true,
-              labelType: NavigationRailLabelType.all,
-              destinations: destinations
-                  .map<NavigationRailDestination>(
-                    (e) => NavigationRailDestination(
-                      icon: e.icon,
-                      label: Text(e.label),
-                    ),
-                  )
-                  .toList(),
-              selectedIndex: _calculateSelectedIndex(context),
-              onDestinationSelected: (index) => _onItemTapped(index, context),
-            ),
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(child: child),
-                  const FooterApp(),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -246,24 +380,6 @@ class AppScaffold extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class FooterApp extends StatelessWidget {
-  const FooterApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: kToolbarHeight,
-      alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      color: Colors.black,
-      child: const Text(
-        'FooterApp',
-        style: TextStyle(color: Colors.white),
-      ),
     );
   }
 }
