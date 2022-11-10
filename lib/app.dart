@@ -5,6 +5,8 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:test_things/core/router/app_router.dart';
+import 'package:test_things/core/styles/app_theme.dart';
+import 'package:test_things/core/styles/custom_colors.dart';
 import 'package:test_things/screens/login_page.dart';
 import 'package:test_things/screens/setting_page.dart';
 import 'package:uni_links/uni_links.dart';
@@ -17,7 +19,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late StreamSubscription _sub;
+  StreamSubscription? _sub;
 
   Future<void> initUniLinks() async {
     // ... check initialLink
@@ -65,7 +67,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void dispose() {
-    _sub.cancel();
+    _sub?.cancel();
     super.dispose();
   }
 
@@ -77,8 +79,17 @@ class _MyAppState extends State<MyApp> {
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
       themeMode: ThemeMode.system,
-      theme: ThemeData.light(useMaterial3: true),
-      darkTheme: ThemeData.dark(useMaterial3: true),
+      color: CustomColorsHelper.primaryBlue,
+      theme: ThemeData.light(useMaterial3: true).copyWith(
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: convertToMaterialColor(CustomColorsHelper.primaryBlue),
+        ),
+      ),
+      darkTheme: ThemeData.dark(useMaterial3: true).copyWith(
+        colorScheme: const ColorScheme.dark().copyWith(
+          primary: convertToMaterialColor(CustomColorsHelper.primaryBlue),
+        ),
+      ),
       useInheritedMediaQuery: true,
       routerConfig: router,
     );

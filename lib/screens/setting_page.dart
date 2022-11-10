@@ -9,11 +9,31 @@ class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text(
-          GoRouter.of(context).location,
-          style: TextStyles.header28pts,
-        ),
+      body: Column(
+        children: [
+          Center(
+            child: Text(
+              GoRouter.of(context).location,
+              style: TextStyles.header28pts,
+            ),
+          ),
+          ...ListTile.divideTiles(
+            context: context,
+            tiles: [
+              ListTile(
+                onTap: () => context.go(routeSettingPolicyPrivacy),
+                leading: const Icon(Icons.settings),
+                title: const Text('Privacy Policy'),
+              ),
+              ListTile(
+                leading: const Icon(Icons.settings),
+                onTap: () => context.go(routeSettingAboutUs),
+                title: const Text('About Us'),
+              )
+            ],
+          ),
+          const Spacer(),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         heroTag: ValueKey(GoRouter.of(context).location),
