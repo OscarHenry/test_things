@@ -25,7 +25,7 @@ const routeChat = '/chat';
 const routeUser = '/user';
 const routeSetting = '/setting';
 const routeShopDevice = '/shop-device';
-const routeDetail = 'detail';
+const routeDetail = '/detail';
 const routePolicyPrivacy = 'policy-privacy';
 const routeAboutUs = 'about-us';
 
@@ -62,55 +62,27 @@ GoRouter router = GoRouter(
           path: routeDevice,
           pageBuilder: (context, state) =>
               const NoTransitionPage(child: DevicePage()),
-          routes: [
-            GoRoute(
-              path: routeDetail,
-              builder: (context, state) => const DetailPage(title: 'Device'),
-            ),
-          ],
         ),
         GoRoute(
           path: routeHistory,
           pageBuilder: (context, state) =>
               const NoTransitionPage(child: HistoryPage()),
-          routes: [
-            GoRoute(
-              path: routeDetail,
-              builder: (context, state) => const DetailPage(title: 'History'),
-            ),
-          ],
         ),
         GoRoute(
           path: routeChat,
           pageBuilder: (context, state) =>
               const NoTransitionPage(child: ChatPage()),
-          routes: [
-            GoRoute(
-              path: routeDetail,
-              builder: (context, state) => const DetailPage(title: 'Chat'),
-            ),
-          ],
         ),
         GoRoute(
           path: routeUser,
           pageBuilder: (context, state) =>
               const NoTransitionPage(child: UserPage()),
-          routes: [
-            GoRoute(
-              path: routeDetail,
-              builder: (context, state) => const DetailPage(title: 'User'),
-            ),
-          ],
         ),
         GoRoute(
           path: routeSetting,
           pageBuilder: (context, state) =>
               const NoTransitionPage(child: SettingPage()),
           routes: [
-            GoRoute(
-              path: routeDetail,
-              builder: (context, state) => const DetailPage(title: 'Setting'),
-            ),
             GoRoute(
               path: routePolicyPrivacy,
               builder: (context, state) => const PolicyPrivacyPage(),
@@ -125,15 +97,13 @@ GoRouter router = GoRouter(
           path: routeShopDevice,
           pageBuilder: (context, state) =>
               const NoTransitionPage(child: ShopDevicePage()),
-          routes: [
-            GoRoute(
-              path: routeDetail,
-              builder: (context, state) =>
-                  const DetailPage(title: 'ShopDevice'),
-            ),
-          ],
         ),
       ],
+    ),
+    GoRoute(
+      path: DetailPage.path,
+      name: DetailPage.name,
+      builder: (context, state) => DetailPage(title: state.location),
     ),
   ],
   errorBuilder: (context, state) => ErrorScreen(exception: state.error),
