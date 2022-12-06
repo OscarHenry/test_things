@@ -42,7 +42,7 @@ final GlobalKey<NavigatorState> _shellNavigatorKey =
 GoRouter router = GoRouter(
   navigatorKey: _rootNavigatorKey,
   initialLocation: LoginPage.path,
-  debugLogDiagnostics: false,
+  debugLogDiagnostics: true,
   routes: [
     GoRoute(
       path: LoginPage.path,
@@ -94,7 +94,7 @@ GoRouter router = GoRouter(
     GoRoute(
       path: DetailPage.path,
       name: DetailPage.name,
-      builder: (context, state) => DetailPage(title: state.location),
+      builder: (context, state) => DetailPage(title: state.extra as String),
     ),
     GoRoute(
       path: NotificationPage.path,
@@ -126,8 +126,9 @@ class DrawerPage<T> extends Page<T> {
   final Widget child;
   @override
   Route<T> createRoute(BuildContext context) {
-    return RawDialogRoute(
+    return RawDialogRoute<T>(
       settings: this,
+      barrierDismissible: false,
       pageBuilder: (context, animation, secondaryAnimation) {
         return Stack(
           children: [

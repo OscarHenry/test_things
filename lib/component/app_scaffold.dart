@@ -215,19 +215,19 @@ class _AppScaffoldTablet extends StatelessWidget {
           color: Colors.white,
         ),
       ),
-      NavigationDestination(
-        label: 'chat',
-        icon: SvgPicture.asset(
-          width: 36,
-          'assets/tab_bar_chat_icon.svg',
-          color: Colors.white,
-        ),
-        selectedIcon: SvgPicture.asset(
-          'assets/tab_bar_chat_icon.svg',
-          width: 36,
-          color: Colors.white,
-        ),
-      ),
+      // NavigationDestination(
+      //   label: 'chat',
+      //   icon: SvgPicture.asset(
+      //     width: 36,
+      //     'assets/tab_bar_chat_icon.svg',
+      //     color: Colors.white,
+      //   ),
+      //   selectedIcon: SvgPicture.asset(
+      //     'assets/tab_bar_chat_icon.svg',
+      //     width: 36,
+      //     color: Colors.white,
+      //   ),
+      // ),
       NavigationDestination(
         label: 'users',
         icon: SvgPicture.asset(
@@ -266,6 +266,19 @@ class _AppScaffoldTablet extends StatelessWidget {
         centerTitle: true,
         titleTextStyle: const TextStyle(color: Colors.white),
         actions: [
+          IconButton(
+            onPressed: () {
+              if (GoRouter.of(context).location != ChatPage.path) {
+                context.pushNamed(ChatPage.name);
+              } else {
+                context.pop();
+              }
+            },
+            icon: const Icon(
+              Icons.chat_outlined,
+              color: Colors.white,
+            ),
+          ),
           IconButton(
             onPressed: () {
               if (GoRouter.of(context).location != NotificationPage.path) {
@@ -342,14 +355,14 @@ class _AppScaffoldTablet extends StatelessWidget {
     if (location.startsWith(HistoryPage.path)) {
       return 1;
     }
-    if (location.startsWith(ChatPage.path)) {
+    // if (location.startsWith(ChatPage.path)) {
+    //   return 2;
+    // }
+    if (location.startsWith(UserPage.path)) {
       return 2;
     }
-    if (location.startsWith(UserPage.path)) {
-      return 3;
-    }
     if (location.startsWith(SettingPage.path)) {
-      return 4;
+      return 3;
     }
     return 0;
   }
@@ -362,24 +375,24 @@ class _AppScaffoldTablet extends StatelessWidget {
       case 1:
         GoRouter.of(context).goNamed(HistoryPage.name);
         break;
+      // case 2:
+      //   GoRouter.of(context).goNamed(ChatPage.name);
+      //   break;
       case 2:
-        GoRouter.of(context).goNamed(ChatPage.name);
-        break;
-      case 3:
         GoRouter.of(context).goNamed(UserPage.name);
         break;
-      case 4:
+      case 3:
         GoRouter.of(context).goNamed(SettingPage.name);
         break;
     }
   }
 
   Future<void> _showMenuOptions(BuildContext context) async {
-    const _position =
+    const position =
         RelativeRect.fromLTRB(double.maxFinite, 90, double.maxFinite, 0);
     await showMenu<void>(
       context: context,
-      position: _position,
+      position: position,
       shape: RoundedRectangleBorder(borderRadius: defRadiusCircular),
       items: [
         PopupMenuItem(
@@ -388,7 +401,7 @@ class _AppScaffoldTablet extends StatelessWidget {
               const Avatar(
                 borderColor: Colors.grey,
                 text: '',
-                imagePath: 'https://picsum.photos/id/237/200/300',
+                imagePath: 'assets/images/about_us_3.jpg',
               ),
               horizontalSpace,
               Column(
