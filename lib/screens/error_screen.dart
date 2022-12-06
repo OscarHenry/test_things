@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:test_things/core/router/app_router.dart';
 import 'package:test_things/core/styles/app_dimensions.dart';
+import 'package:test_things/screens/login_page.dart';
 
 class ErrorScreen extends StatelessWidget {
   const ErrorScreen({Key? key, this.exception}) : super(key: key);
@@ -19,7 +20,7 @@ class ErrorScreen extends StatelessWidget {
             verticalSpace,
             ElevatedButton(
               onPressed: () {
-                context.go(routeLogin);
+                context.goNamed(LoginPage.name);
               },
               child: const Text('back to login'),
             ),

@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:test_things/core/router/app_router.dart';
 import 'package:test_things/core/styles/fonts.dart';
+import 'package:test_things/screens/about_us_page.dart';
+import 'package:test_things/screens/detail_page.dart';
+import 'package:test_things/screens/policy_privacy_page.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({Key? key}) : super(key: key);
-
+  static const String path = '/setting';
+  static const String name = 'setting';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,13 +25,13 @@ class SettingPage extends StatelessWidget {
             context: context,
             tiles: [
               ListTile(
-                onTap: () => context.go(routeSettingPolicyPrivacy),
+                onTap: () => context.pushNamed(PolicyPrivacyPage.name),
                 leading: const Icon(Icons.settings),
                 title: const Text('Privacy Policy'),
               ),
               ListTile(
                 leading: const Icon(Icons.settings),
-                onTap: () => context.go(routeSettingAboutUs),
+                onTap: () => context.pushNamed(AboutUsPage.name),
                 title: const Text('About Us'),
               )
             ],
@@ -38,7 +42,7 @@ class SettingPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         heroTag: ValueKey(GoRouter.of(context).location),
         onPressed: () {
-          context.go('${GoRouter.of(context).location}/$routeDetail');
+          context.pushNamed(DetailPage.name, extra: 'setting');
         },
         tooltip: 'Details',
         child: const Text('Details'),

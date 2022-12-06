@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test_things/model/dto.dart';
+import 'package:test_things/model/notification.dart';
 
 import 'notification_item.dart';
 

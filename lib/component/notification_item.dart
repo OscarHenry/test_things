@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test_things/model/dto.dart' as dto;
+import 'package:test_things/model/notification.dart' as dto;
 
 class NotificationItem extends StatelessWidget {
   const NotificationItem({

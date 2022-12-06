@@ -6,9 +6,15 @@ import 'package:test_things/component/text_input_form_field.dart';
 import 'package:test_things/core/router/app_router.dart';
 import 'package:test_things/core/styles/app_dimensions.dart';
 import 'package:test_things/core/util/responsive.dart';
+import 'package:test_things/screens/about_us_page.dart';
+import 'package:test_things/screens/device_page.dart';
+import 'package:test_things/screens/policy_privacy_page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
+  static const String path = '/login';
+  static const String name = 'login';
+
   @override
   Widget build(BuildContext context) {
     return const Responsive(
@@ -45,7 +51,7 @@ class _LoginMobile extends StatelessWidget {
               verticalSpace,
               ElevatedButton(
                 onPressed: () {
-                  context.go(routeDevice);
+                  context.goNamed(DevicePage.name);
                 },
                 child: const Text('Login'),
               ),
@@ -57,14 +63,14 @@ class _LoginMobile extends StatelessWidget {
                 children: [
                   TextButton(
                     onPressed: () {
-                      context.go(routeLoginPolicyPrivacy);
+                      context.pushNamed(PolicyPrivacyPage.name);
                     },
                     child: const Text('Policy Privacy'),
                   ),
                   horizontalSpace,
                   TextButton(
                     onPressed: () {
-                      context.go(routeLoginAboutUs);
+                      context.pushNamed(AboutUsPage.name);
                     },
                     child: const Text('About Us'),
                   ),
@@ -120,7 +126,7 @@ class _LoginTabet extends StatelessWidget {
                     verticalSpace,
                     ElevatedButton(
                       onPressed: () {
-                        context.go(routeDevice);
+                        context.goNamed(DevicePage.name);
                       },
                       child: const Text('Login'),
                     ),
@@ -130,18 +136,22 @@ class _LoginTabet extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        TextButton(
-                          onPressed: () {
-                            context.go(routeLoginPolicyPrivacy);
-                          },
-                          child: const Text('Policy Privacy'),
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () {
+                              context.pushNamed(PolicyPrivacyPage.name);
+                            },
+                            child: const Text('Policy Privacy'),
+                          ),
                         ),
                         horizontalSpace,
-                        TextButton(
-                          onPressed: () {
-                            context.go(routeLoginAboutUs);
-                          },
-                          child: const Text('About Us'),
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () {
+                              context.pushNamed(AboutUsPage.name);
+                            },
+                            child: const Text('About Us'),
+                          ),
                         ),
                       ],
                     ),

@@ -9,6 +9,14 @@ import 'package:test_things/core/styles/app_dimensions.dart';
 import 'package:test_things/core/styles/custom_colors.dart';
 import 'package:test_things/core/styles/fonts.dart';
 import 'package:test_things/core/util/responsive.dart';
+import 'package:test_things/screens/chat_page.dart';
+import 'package:test_things/screens/device_page.dart';
+import 'package:test_things/screens/history_page.dart';
+import 'package:test_things/screens/login_page.dart';
+import 'package:test_things/screens/notification_page.dart';
+import 'package:test_things/screens/setting_page.dart';
+import 'package:test_things/screens/shop_device_page.dart';
+import 'package:test_things/screens/user_page.dart';
 
 class AppScaffold extends StatelessWidget {
   const AppScaffold({Key? key, required this.child}) : super(key: key);
@@ -97,6 +105,30 @@ class _AppScaffoldMobile extends StatelessWidget {
       ),
     ];
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: BackButton(
+          onPressed: () => context.pop(),
+          color: Colors.black,
+        ),
+        title: const Text('AppBar-Scaffold-Mobile'),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              if (GoRouter.of(context).location != NotificationPage.path) {
+                context.pushNamed(NotificationPage.name);
+              } else {
+                context.pop();
+              }
+            },
+            icon: const Icon(
+              Icons.notifications,
+              color: Colors.black,
+            ),
+          ),
+        ],
+      ),
       body: child,
       bottomNavigationBar: NavigationBar(
         backgroundColor: Colors.white,
@@ -112,19 +144,19 @@ class _AppScaffoldMobile extends StatelessWidget {
 
   static int _calculateSelectedIndex(BuildContext context) {
     final String location = GoRouterState.of(context).location;
-    if (location.startsWith(routeDevice)) {
+    if (location.startsWith(DevicePage.path)) {
       return 0;
     }
-    if (location.startsWith(routeHistory)) {
+    if (location.startsWith(HistoryPage.path)) {
       return 1;
     }
-    if (location.startsWith(routeChat)) {
+    if (location.startsWith(ChatPage.path)) {
       return 2;
     }
-    if (location.startsWith(routeUser)) {
+    if (location.startsWith(UserPage.path)) {
       return 3;
     }
-    if (location.startsWith(routeSetting)) {
+    if (location.startsWith(SettingPage.path)) {
       return 4;
     }
     return 0;
@@ -133,19 +165,19 @@ class _AppScaffoldMobile extends StatelessWidget {
   void _onItemTapped(int index, BuildContext context) {
     switch (index) {
       case 0:
-        GoRouter.of(context).go(routeDevice);
+        GoRouter.of(context).goNamed(DevicePage.name);
         break;
       case 1:
-        GoRouter.of(context).go(routeHistory);
+        GoRouter.of(context).goNamed(HistoryPage.name);
         break;
       case 2:
-        GoRouter.of(context).go(routeChat);
+        GoRouter.of(context).goNamed(ChatPage.name);
         break;
       case 3:
-        GoRouter.of(context).go(routeUser);
+        GoRouter.of(context).goNamed(UserPage.name);
         break;
       case 4:
-        GoRouter.of(context).go(routeSetting);
+        GoRouter.of(context).goNamed(SettingPage.name);
         break;
     }
   }
@@ -226,13 +258,30 @@ class _AppScaffoldTablet extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: const Text('AppBar-Scaffold'),
+        leading: BackButton(
+          onPressed: () => context.pop(),
+          color: Colors.white,
+        ),
+        title: const Text('AppBar-Scaffold-Tablet'),
         centerTitle: true,
         titleTextStyle: const TextStyle(color: Colors.white),
         actions: [
+          IconButton(
+            onPressed: () {
+              if (GoRouter.of(context).location != NotificationPage.path) {
+                context.pushNamed(NotificationPage.name);
+              } else {
+                context.pop();
+              }
+            },
+            icon: const Icon(
+              Icons.notifications,
+              color: Colors.white,
+            ),
+          ),
           AvatarButton(
             text: '',
-            imagePath: 'https://picsum.photos/id/237/200/300',
+            imagePath: 'assets/images/about_us_3.jpg',
             onTap: () async {
               _showMenuOptions(context);
             },
@@ -287,19 +336,19 @@ class _AppScaffoldTablet extends StatelessWidget {
 
   static int _calculateSelectedIndex(BuildContext context) {
     final String location = GoRouterState.of(context).location;
-    if (location.startsWith(routeDevice)) {
+    if (location.startsWith(DevicePage.path)) {
       return 0;
     }
-    if (location.startsWith(routeHistory)) {
+    if (location.startsWith(HistoryPage.path)) {
       return 1;
     }
-    if (location.startsWith(routeChat)) {
+    if (location.startsWith(ChatPage.path)) {
       return 2;
     }
-    if (location.startsWith(routeUser)) {
+    if (location.startsWith(UserPage.path)) {
       return 3;
     }
-    if (location.startsWith(routeSetting)) {
+    if (location.startsWith(SettingPage.path)) {
       return 4;
     }
     return 0;
@@ -308,19 +357,19 @@ class _AppScaffoldTablet extends StatelessWidget {
   void _onItemTapped(int index, BuildContext context) {
     switch (index) {
       case 0:
-        GoRouter.of(context).go(routeDevice);
+        GoRouter.of(context).goNamed(DevicePage.name);
         break;
       case 1:
-        GoRouter.of(context).go(routeHistory);
+        GoRouter.of(context).goNamed(HistoryPage.name);
         break;
       case 2:
-        GoRouter.of(context).go(routeChat);
+        GoRouter.of(context).goNamed(ChatPage.name);
         break;
       case 3:
-        GoRouter.of(context).go(routeUser);
+        GoRouter.of(context).goNamed(UserPage.name);
         break;
       case 4:
-        GoRouter.of(context).go(routeSetting);
+        GoRouter.of(context).goNamed(SettingPage.name);
         break;
     }
   }
@@ -366,14 +415,14 @@ class _AppScaffoldTablet extends StatelessWidget {
           ),
         ),
         PopupMenuItem(
-          onTap: () => context.go(routeShopDevice),
+          onTap: () => context.pushNamed(ShopDevicePage.name),
           child: Text(
             'Shop Devices',
             style: TextStyles.titleRegular12pts,
           ),
         ),
         PopupMenuItem(
-          onTap: () => context.go(routeLogin),
+          onTap: () => context.goNamed(LoginPage.name),
           child: Text(
             'Sign Out',
             style: TextStyles.titleRegular12pts,

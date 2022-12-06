@@ -6,7 +6,8 @@ import 'package:test_things/screens/detail_page.dart';
 
 class ChatPage extends StatelessWidget {
   const ChatPage({Key? key}) : super(key: key);
-
+  static const String path = '/chat';
+  static const String name = 'chat';
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -6,7 +6,8 @@ import 'package:test_things/screens/detail_page.dart';
 
 class UserPage extends StatelessWidget {
   const UserPage({Key? key}) : super(key: key);
-
+  static const String path = '/user';
+  static const String name = 'user';
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -6,7 +6,8 @@ import 'package:test_things/screens/detail_page.dart';
 
 class HistoryPage extends StatelessWidget {
   const HistoryPage({Key? key}) : super(key: key);
-
+  static const String path = '/history';
+  static const String name = 'history';
   @override
   Widget build(BuildContext context) {
     return Scaffold(

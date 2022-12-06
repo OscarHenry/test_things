@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:test_things/model/dto.dart';
+import 'package:test_things/model/models.dart';
 
 class DeviceItem extends StatefulWidget {
   const DeviceItem({
