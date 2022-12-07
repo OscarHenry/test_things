@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:test_things/component/avatar/avatar.dart';
 import 'package:test_things/component/avatar/avatar_button.dart';
 import 'package:test_things/component/footer_app.dart';
 import 'package:test_things/core/router/app_router.dart';
+import 'package:test_things/core/styles/app_animations.dart';
 import 'package:test_things/core/styles/app_dimensions.dart';
 import 'package:test_things/core/styles/custom_colors.dart';
 import 'package:test_things/core/styles/fonts.dart';
 import 'package:test_things/core/util/responsive.dart';
+import 'package:test_things/management/chat_controller.dart';
 import 'package:test_things/screens/chat_page.dart';
 import 'package:test_things/screens/device_page.dart';
 import 'package:test_things/screens/history_page.dart';
@@ -270,11 +273,7 @@ class _AppScaffoldTablet extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              if (GoRouter.of(context).location != ChatPage.path) {
-                context.pushNamed(ChatPage.name);
-              } else {
-                context.pop();
-              }
+              context.read<ChatController>().changeState();
             },
             icon: const Icon(
               Icons.chat_outlined,
@@ -341,7 +340,23 @@ class _AppScaffoldTablet extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Expanded(child: child),
+                Expanded(
+                  child: Row(
+                    children: [
+                      Expanded(child: child),
+                      Consumer<ChatController>(
+                        builder: (context, controller, child) =>
+                            AnimatedContainer(
+                          duration: defAnimDuration,
+                          width: controller.isOpen ? 25.w : 0,
+                          color: Colors.white,
+                          child: child,
+                        ),
+                        child: const ChatPage(),
+                      ),
+                    ],
+                  ),
+                ),
                 const FooterApp(),
               ],
             ),

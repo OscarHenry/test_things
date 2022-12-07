@@ -20,8 +20,7 @@ class DevicePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         heroTag: ValueKey(GoRouter.of(context).location),
         onPressed: () {
-          context.pushNamed(DetailPage.name);
-          // context.go('${GoRouter.of(context).location}/$routeDetail');
+          context.pushNamed(DetailPage.name, extra: 'device');
         },
         tooltip: 'Details',
         child: const Text('Details'),
