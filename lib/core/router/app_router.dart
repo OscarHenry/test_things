@@ -68,41 +68,21 @@ GoRouter router = GoRouter(
           pageBuilder: (context, state) =>
               const NoTransitionPage(child: HistoryPage()),
         ),
-        ShellRoute(
-          navigatorKey: _chatNavigatorKey,
-          builder: (context, state, child) => child,
-          routes: [
-            GoRoute(
-              path: ChatPage.path,
-              name: ChatPage.name,
-              pageBuilder: (context, state) =>
-                  const NoTransitionPage(child: ChatPage()),
-            ),
-            GoRoute(
-              path: ChatDetailPage.path,
-              name: ChatDetailPage.name,
-              pageBuilder: (context, state) => NoTransitionPage(
-                child: ChatDetailPage(
-                  title: state.extra as String,
-                ),
-              ),
-            ),
-          ],
+        GoRoute(
+          path: ChatPage.path,
+          name: ChatPage.name,
+          pageBuilder: (context, state) =>
+              const NoTransitionPage(child: ChatPage()),
         ),
-        // GoRoute(
-        //   path: ChatPage.path,
-        //   name: ChatPage.name,
-        //   pageBuilder: (context, state) =>
-        //       const NoTransitionPage(child: ChatPage()),
-        //   routes: [
-        //     GoRoute(
-        //       path: ChatDetailPage.path,
-        //       name: ChatDetailPage.name,
-        //       pageBuilder: (context, state) =>
-        //           const NoTransitionPage(child: ChatDetailPage()),
-        //     ),
-        //   ],
-        // ),
+        GoRoute(
+          path: ChatDetailPage.path,
+          name: ChatDetailPage.name,
+          pageBuilder: (context, state) => NoTransitionPage(
+            child: ChatDetailPage(
+              title: state.extra as String,
+            ),
+          ),
+        ),
         GoRoute(
           path: UserPage.path,
           name: UserPage.name,

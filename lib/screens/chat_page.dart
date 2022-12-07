@@ -37,8 +37,8 @@ class ChatPage extends StatelessWidget {
           tiles: List.generate(
             15,
             (index) => ListTile(
-              onTap: () =>
-                  context.go(ChatDetailPage.path, extra: index.toString()),
+              onTap: () => context.pushNamed(ChatDetailPage.name,
+                  extra: index.toString()),
               title: Text('Chat Channel $index'),
             ),
           ),

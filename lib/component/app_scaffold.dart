@@ -12,6 +12,7 @@ import 'package:test_things/core/styles/custom_colors.dart';
 import 'package:test_things/core/styles/fonts.dart';
 import 'package:test_things/core/util/responsive.dart';
 import 'package:test_things/management/chat_controller.dart';
+import 'package:test_things/screens/chat_detail_page.dart';
 import 'package:test_things/screens/chat_page.dart';
 import 'package:test_things/screens/device_page.dart';
 import 'package:test_things/screens/history_page.dart';
@@ -264,7 +265,9 @@ class _AppScaffoldTablet extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.black,
         leading: BackButton(
-          onPressed: () => context.pop(),
+          onPressed: () => GoRouter.of(context)
+            ..pop()
+            ..refresh(),
           color: Colors.white,
         ),
         title: const Text('AppBar-Scaffold-Tablet'),
@@ -274,6 +277,9 @@ class _AppScaffoldTablet extends StatelessWidget {
           IconButton(
             onPressed: () {
               context.read<ChatController>().changeState();
+              if (GoRouter.of(context).location == ChatDetailPage.path) {
+                context.pop();
+              }
             },
             icon: const Icon(
               Icons.chat_outlined,
