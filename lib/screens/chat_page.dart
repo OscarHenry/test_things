@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:test_things/core/router/app_router.dart';
 import 'package:test_things/core/styles/fonts.dart';
 import 'package:test_things/core/util/responsive.dart';
+import 'package:test_things/screens/chat_detail_page.dart';
 import 'package:test_things/screens/detail_page.dart';
 
 class ChatPage extends StatelessWidget {
@@ -37,6 +37,8 @@ class ChatPage extends StatelessWidget {
           tiles: List.generate(
             15,
             (index) => ListTile(
+              onTap: () =>
+                  context.go(ChatDetailPage.path, extra: index.toString()),
               title: Text('Chat Channel $index'),
             ),
           ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:test_things/core/util/responsive.dart';
 import 'package:test_things/screens/about_us_page.dart';
+import 'package:test_things/screens/chat_detail_page.dart';
 import 'package:test_things/screens/chat_page.dart';
 import 'package:test_things/screens/detail_page.dart';
 import 'package:test_things/screens/device_page.dart';
@@ -18,8 +19,10 @@ import 'package:test_things/screens/user_page.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
-final GlobalKey<NavigatorState> _shellNavigatorKey =
+final GlobalKey<NavigatorState> _homeNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'home');
+final GlobalKey<NavigatorState> _chatNavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: 'chat');
 
 // const routeLogin = '/login';
 // const routeDevice = '/device';
@@ -50,7 +53,7 @@ GoRouter router = GoRouter(
       builder: (context, state) => const LoginPage(),
     ),
     ShellRoute(
-      navigatorKey: _shellNavigatorKey,
+      navigatorKey: _homeNavigatorKey,
       builder: (context, state, child) => AppScaffold(child: child),
       routes: [
         GoRoute(
@@ -65,12 +68,41 @@ GoRouter router = GoRouter(
           pageBuilder: (context, state) =>
               const NoTransitionPage(child: HistoryPage()),
         ),
-        GoRoute(
-          path: ChatPage.path,
-          name: ChatPage.name,
-          pageBuilder: (context, state) =>
-              const NoTransitionPage(child: ChatPage()),
+        ShellRoute(
+          navigatorKey: _chatNavigatorKey,
+          builder: (context, state, child) => child,
+          routes: [
+            GoRoute(
+              path: ChatPage.path,
+              name: ChatPage.name,
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: ChatPage()),
+            ),
+            GoRoute(
+              path: ChatDetailPage.path,
+              name: ChatDetailPage.name,
+              pageBuilder: (context, state) => NoTransitionPage(
+                child: ChatDetailPage(
+                  title: state.extra as String,
+                ),
+              ),
+            ),
+          ],
         ),
+        // GoRoute(
+        //   path: ChatPage.path,
+        //   name: ChatPage.name,
+        //   pageBuilder: (context, state) =>
+        //       const NoTransitionPage(child: ChatPage()),
+        //   routes: [
+        //     GoRoute(
+        //       path: ChatDetailPage.path,
+        //       name: ChatDetailPage.name,
+        //       pageBuilder: (context, state) =>
+        //           const NoTransitionPage(child: ChatDetailPage()),
+        //     ),
+        //   ],
+        // ),
         GoRoute(
           path: UserPage.path,
           name: UserPage.name,
