@@ -13,7 +13,7 @@ class DevicePage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Text(
-          GoRouter.of(context).location,
+          'Device Page',
           style: TextStyles.header28pts,
         ),
       ),

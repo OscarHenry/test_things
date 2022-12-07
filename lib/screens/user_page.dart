@@ -13,7 +13,7 @@ class UserPage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Text(
-          GoRouter.of(context).location,
+          'User Page',
           style: TextStyles.header28pts,
         ),
       ),

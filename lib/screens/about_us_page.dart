@@ -17,7 +17,7 @@ class AboutUsPage extends StatelessWidget {
       ),
       body: Center(
         child: Text(
-          GoRouter.of(context).location,
+          'About Us Page',
           style: TextStyles.header28pts,
         ),
       ),

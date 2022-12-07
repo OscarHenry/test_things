@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:test_things/core/styles/fonts.dart';
 import 'package:test_things/core/util/responsive.dart';
+import 'package:test_things/management/chat_controller.dart';
 import 'package:test_things/screens/chat_detail_page.dart';
 import 'package:test_things/screens/detail_page.dart';
 
@@ -15,7 +17,7 @@ class ChatPage extends StatelessWidget {
       mobile: Scaffold(
         body: Center(
           child: Text(
-            GoRouter.of(context).location,
+            'Chat Page',
             style: TextStyles.header28pts,
           ),
         ),
@@ -28,21 +30,44 @@ class ChatPage extends StatelessWidget {
           child: const Text('Details'),
         ),
       ),
-      tablet: ListView(
-        shrinkWrap: true,
-        physics: const AlwaysScrollableScrollPhysics(
-            parent: BouncingScrollPhysics()),
-        children: ListTile.divideTiles(
-          context: context,
-          tiles: List.generate(
-            15,
-            (index) => ListTile(
-              onTap: () => context.pushNamed(ChatDetailPage.name,
-                  extra: index.toString()),
-              title: Text('Chat Channel $index'),
+      tablet: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          AppBar(
+            elevation: 0,
+            title: const Text('Chats'),
+            actions: [
+              CloseButton(
+                onPressed: () {
+                  if (GoRouter.of(context).location == ChatDetailPage.path) {
+                    GoRouter.of(context)
+                      ..pop()
+                      ..refresh();
+                  }
+                  context.read<ChatController>().changeState(value: false);
+                },
+                color: Colors.black,
+              ),
+            ],
+          ),
+          Expanded(
+            child: ListView(
+              physics: const AlwaysScrollableScrollPhysics(
+                  parent: BouncingScrollPhysics()),
+              children: ListTile.divideTiles(
+                context: context,
+                tiles: List.generate(
+                  15,
+                  (index) => ListTile(
+                    onTap: () => context.pushNamed(ChatDetailPage.name,
+                        extra: index.toString()),
+                    title: Text('Chat Channel $index'),
+                  ),
+                ),
+              ).toList(),
             ),
           ),
-        ).toList(),
+        ],
       ),
     );
   }

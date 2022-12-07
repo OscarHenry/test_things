@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:test_things/core/styles/app_dimensions.dart';
-import 'package:test_things/core/util/responsive.dart';
-import 'package:test_things/management/chat_controller.dart';
 
 class ChatDetailPage extends StatelessWidget {
   const ChatDetailPage({Key? key, required this.title}) : super(key: key);
@@ -14,13 +11,12 @@ class ChatDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chat $title Detail in Mobile mode'),
+        title: Text('Detail of Chat $title'),
         leading: BackButton(
           onPressed: () {
             GoRouter.of(context)
               ..pop()
               ..refresh();
-            context.read<ChatController>().changeState(value: false);
           },
           color: Colors.black,
         ),

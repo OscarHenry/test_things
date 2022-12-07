@@ -13,14 +13,14 @@ class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Settings Page',
+          style: TextStyles.header28pts,
+        ),
+      ),
       body: Column(
         children: [
-          Center(
-            child: Text(
-              GoRouter.of(context).location,
-              style: TextStyles.header28pts,
-            ),
-          ),
           ...ListTile.divideTiles(
             context: context,
             tiles: [

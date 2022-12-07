@@ -17,7 +17,7 @@ class PolicyPrivacyPage extends StatelessWidget {
       ),
       body: Center(
         child: Text(
-          GoRouter.of(context).location,
+          'Policy Privacy Page',
           style: TextStyles.header28pts,
         ),
       ),

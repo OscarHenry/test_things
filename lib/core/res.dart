@@ -3,6 +3,7 @@ class Res {
   static const String tab_bar_chat_icon = "assets/tab_bar_chat_icon.svg";
   static const String tab_bar_device_icon = "assets/tab_bar_device_icon.svg";
   static const String tab_bar_history_icon = "assets/tab_bar_history_icon.svg";
-  static const String tab_bar_settings_icon = "assets/tab_bar_settings_icon.svg";
+  static const String tab_bar_settings_icon =
+      "assets/tab_bar_settings_icon.svg";
   static const String tab_bar_users_icon = "assets/tab_bar_users_icon.svg";
 }

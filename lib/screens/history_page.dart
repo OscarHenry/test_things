@@ -13,7 +13,7 @@ class HistoryPage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Text(
-          GoRouter.of(context).location,
+          'History Page',
           style: TextStyles.header28pts,
         ),
       ),
