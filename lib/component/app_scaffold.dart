@@ -119,7 +119,9 @@ class _AppScaffoldMobile extends StatelessWidget {
               if (GoRouter.of(context).location != NotificationPage.path) {
                 context.pushNamed(NotificationPage.name);
               } else {
-                context.pop();
+                GoRouter.of(context)
+                  ..pop()
+                  ..refresh();
               }
             },
             icon: const Icon(
@@ -284,7 +286,9 @@ class _AppScaffoldTablet extends StatelessWidget {
               if (GoRouter.of(context).location != NotificationPage.path) {
                 context.pushNamed(NotificationPage.name);
               } else {
-                context.pop();
+                GoRouter.of(context)
+                  ..pop()
+                  ..refresh();
               }
             },
             icon: const Icon(

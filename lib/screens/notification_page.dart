@@ -34,11 +34,13 @@ class NotificationPage extends StatelessWidget {
             centerTitle: false,
             actions: [
               CloseButton(
-                  onPressed: () {
-                    context.pop();
-                    GoRouter.of(context).refresh();
-                  },
-                  color: Colors.black),
+                onPressed: () {
+                  GoRouter.of(context)
+                    ..pop()
+                    ..refresh();
+                },
+                color: Colors.black,
+              ),
             ],
           ),
           Expanded(
