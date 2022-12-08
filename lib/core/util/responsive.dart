@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:test_things/core/styles/app_animations.dart';
 import 'package:universal_io/io.dart' show Platform;
 
@@ -52,6 +53,11 @@ class Responsive extends StatelessWidget {
         return OrientationBuilder(
           builder: (context, orientation) {
             ScreenUtil.from(context);
+            // log(
+            //     '${GoRouter.of(context).location}: ${constraints.toString()}'
+            //     '\nisMobile ${ScreenUtil.isMobile}'
+            //     '\nisTablet ${ScreenUtil.isTablet}',
+            //     name: 'ScreenUtil');
             if (_builder != null) {
               return _builder!(context, constraints, orientation);
             } else {

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -13,8 +15,6 @@ import 'package:test_things/core/styles/custom_colors.dart';
 import 'package:test_things/core/styles/fonts.dart';
 import 'package:test_things/core/util/responsive.dart';
 import 'package:test_things/management/chat_controller.dart';
-import 'package:test_things/chat_app/chat_detail_page.dart';
-import 'package:test_things/chat_app/chat_page.dart';
 import 'package:test_things/screens/device_page.dart';
 import 'package:test_things/screens/history_page.dart';
 import 'package:test_things/screens/login_page.dart';
@@ -24,7 +24,9 @@ import 'package:test_things/screens/shop_device_page.dart';
 import 'package:test_things/screens/user_page.dart';
 
 class AppScaffold extends StatelessWidget {
-  const AppScaffold({Key? key, required this.child}) : super(key: key);
+  const AppScaffold({Key? key, required this.child, required this.state})
+      : super(key: key);
+  final GoRouterState state;
   final Widget child;
 
   @override
@@ -112,9 +114,25 @@ class _AppScaffoldMobile extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: BackButton(
-          onPressed: () => context.pop(),
-          color: Colors.black,
+        leading: Visibility(
+          visible: true,
+          child: BackButton(
+            onPressed: () {
+              log('router: ${router.location}', name: 'HenryDebug');
+              log('chatRouter: ${chatRouter.location}', name: 'HenryDebug');
+              if (GoRouter.of(context).location.startsWith(ChatApp.path) &&
+                  chatRouter.canPop()) {
+                chatRouter
+                  ..pop()
+                  ..refresh();
+              } else {
+                GoRouter.of(context)
+                  ..pop()
+                  ..refresh();
+              }
+            },
+            color: Colors.black,
+          ),
         ),
         title: const Text('AppBar-Scaffold-Mobile'),
         centerTitle: true,
@@ -266,9 +284,18 @@ class _AppScaffoldTablet extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.black,
         leading: BackButton(
-          onPressed: () => GoRouter.of(context)
-            ..pop()
-            ..refresh(),
+          onPressed: () {
+            if (GoRouter.of(context).location.startsWith(ChatApp.path) &&
+                chatRouter.canPop()) {
+              chatRouter
+                ..pop()
+                ..refresh();
+            } else {
+              GoRouter.of(context)
+                ..pop()
+                ..refresh();
+            }
+          },
           color: Colors.white,
         ),
         title: const Text('AppBar-Scaffold-Tablet'),
@@ -278,9 +305,6 @@ class _AppScaffoldTablet extends StatelessWidget {
           IconButton(
             onPressed: () {
               context.read<ChatController>().changeState();
-              if (GoRouter.of(context).location == ChatDetailPage.path) {
-                context.pop();
-              }
             },
             icon: const Icon(
               Icons.chat_outlined,
@@ -356,6 +380,8 @@ class _AppScaffoldTablet extends StatelessWidget {
                           return AnimatedContainer(
                             duration: defAnimDuration,
                             width: controller.isOpen ? 25.w : 0,
+                            transform: Matrix4.translationValues(
+                                controller.isOpen ? 0 : 25.w, 0, 0),
                             color: Colors.white,
                             child: child,
                           );

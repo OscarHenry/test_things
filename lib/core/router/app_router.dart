@@ -24,24 +24,6 @@ final GlobalKey<NavigatorState> _homeNavigatorKey =
 final GlobalKey<NavigatorState> _chatNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'chat');
 
-// const routeLogin = '/login';
-// const routeDevice = '/device';
-// const routeHistory = '/history';
-// const routeChat = '/chat';
-// const routeUser = '/user';
-// const routeSetting = '/setting';
-// const routeNotification = '/notification';
-// const routeShopDevice = '/shop-device';
-// const routeDetail = '/detail';
-// const routePolicyPrivacy = 'policy-privacy';
-// const routeAboutUs = 'about-us';
-//
-// /// subroutes
-// const routeLoginPolicyPrivacy = '$routeLogin/$routePolicyPrivacy';
-// const routeLoginAboutUs = '$routeLogin/$routeAboutUs';
-// const routeSettingPolicyPrivacy = '$routeSetting/$routePolicyPrivacy';
-// const routeSettingAboutUs = '$routeSetting/$routeAboutUs';
-
 GoRouter router = GoRouter(
   navigatorKey: _rootNavigatorKey,
   initialLocation: LoginPage.path,
@@ -54,7 +36,10 @@ GoRouter router = GoRouter(
     ),
     ShellRoute(
       navigatorKey: _homeNavigatorKey,
-      builder: (context, state, child) => AppScaffold(child: child),
+      builder: (context, state, child) => AppScaffold(
+        state: state,
+        child: child,
+      ),
       routes: [
         GoRoute(
           path: DevicePage.path,
@@ -122,6 +107,29 @@ GoRouter router = GoRouter(
     ),
   ],
   errorBuilder: (context, state) => ErrorScreen(exception: state.error),
+);
+
+GoRouter chatRouter = GoRouter(
+  navigatorKey: _chatNavigatorKey,
+  initialLocation: ChatPage.path,
+  debugLogDiagnostics: true,
+  routes: [
+    GoRoute(
+      path: ChatPage.path,
+      name: ChatPage.name,
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: ChatPage()),
+    ),
+    GoRoute(
+      path: ChatDetailPage.path,
+      name: ChatDetailPage.name,
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: ChatDetailPage(
+          title: state.extra as String,
+        ),
+      ),
+    )
+  ],
 );
 
 class DrawerPage<T> extends Page<T> {
