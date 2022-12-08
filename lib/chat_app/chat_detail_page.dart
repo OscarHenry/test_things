@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:test_things/core/styles/app_dimensions.dart';
+import 'package:test_things/core/styles/fonts.dart';
 
 class ChatDetailPage extends StatelessWidget {
   const ChatDetailPage({Key? key, required this.title}) : super(key: key);
@@ -12,11 +12,12 @@ class ChatDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Detail of Chat $title'),
+        titleTextStyle: TextStyles.header20pts.apply(color: Colors.black),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         leading: BackButton(
           onPressed: () {
-            GoRouter.of(context)
-              ..pop()
-              ..refresh();
+            Navigator.of(context).pop();
           },
           color: Colors.black,
         ),

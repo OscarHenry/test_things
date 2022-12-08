@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:test_things/chat_app/chat_app.dart';
 import 'package:test_things/component/avatar/avatar.dart';
 import 'package:test_things/component/avatar/avatar_button.dart';
 import 'package:test_things/component/footer_app.dart';
@@ -12,8 +13,8 @@ import 'package:test_things/core/styles/custom_colors.dart';
 import 'package:test_things/core/styles/fonts.dart';
 import 'package:test_things/core/util/responsive.dart';
 import 'package:test_things/management/chat_controller.dart';
-import 'package:test_things/screens/chat_detail_page.dart';
-import 'package:test_things/screens/chat_page.dart';
+import 'package:test_things/chat_app/chat_detail_page.dart';
+import 'package:test_things/chat_app/chat_page.dart';
 import 'package:test_things/screens/device_page.dart';
 import 'package:test_things/screens/history_page.dart';
 import 'package:test_things/screens/login_page.dart';
@@ -156,7 +157,7 @@ class _AppScaffoldMobile extends StatelessWidget {
     if (location.startsWith(HistoryPage.path)) {
       return 1;
     }
-    if (location.startsWith(ChatPage.path)) {
+    if (location.startsWith(ChatApp.path)) {
       return 2;
     }
     if (location.startsWith(UserPage.path)) {
@@ -177,7 +178,7 @@ class _AppScaffoldMobile extends StatelessWidget {
         GoRouter.of(context).goNamed(HistoryPage.name);
         break;
       case 2:
-        GoRouter.of(context).goNamed(ChatPage.name);
+        GoRouter.of(context).goNamed(ChatApp.name);
         break;
       case 3:
         GoRouter.of(context).goNamed(UserPage.name);
@@ -351,14 +352,15 @@ class _AppScaffoldTablet extends StatelessWidget {
                     children: [
                       Expanded(child: child),
                       Consumer<ChatController>(
-                        builder: (context, controller, child) =>
-                            AnimatedContainer(
-                          duration: defAnimDuration,
-                          width: controller.isOpen ? 25.w : 0,
-                          color: Colors.white,
-                          child: child,
-                        ),
-                        child: const ChatPage(),
+                        builder: (context, controller, child) {
+                          return AnimatedContainer(
+                            duration: defAnimDuration,
+                            width: controller.isOpen ? 25.w : 0,
+                            color: Colors.white,
+                            child: child,
+                          );
+                        },
+                        child: const ChatApp(),
                       ),
                     ],
                   ),

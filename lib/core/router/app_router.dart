@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:test_things/chat_app/chat_app.dart';
 import 'package:test_things/core/util/responsive.dart';
 import 'package:test_things/screens/about_us_page.dart';
-import 'package:test_things/screens/chat_detail_page.dart';
-import 'package:test_things/screens/chat_page.dart';
+import 'package:test_things/chat_app/chat_detail_page.dart';
+import 'package:test_things/chat_app/chat_page.dart';
 import 'package:test_things/screens/detail_page.dart';
 import 'package:test_things/screens/device_page.dart';
 import 'package:test_things/screens/error_screen.dart';
@@ -68,19 +69,10 @@ GoRouter router = GoRouter(
               const NoTransitionPage(child: HistoryPage()),
         ),
         GoRoute(
-          path: ChatPage.path,
-          name: ChatPage.name,
+          path: ChatApp.path,
+          name: ChatApp.name,
           pageBuilder: (context, state) =>
-              const NoTransitionPage(child: ChatPage()),
-        ),
-        GoRoute(
-          path: ChatDetailPage.path,
-          name: ChatDetailPage.name,
-          pageBuilder: (context, state) => NoTransitionPage(
-            child: ChatDetailPage(
-              title: state.extra as String,
-            ),
-          ),
+              const NoTransitionPage(child: ChatApp()),
         ),
         GoRoute(
           path: UserPage.path,
