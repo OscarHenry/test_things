@@ -182,7 +182,7 @@ class _LoginTabet extends StatelessWidget {
                         await login(context).then(
                           (token) async {
                             if (token != null) {
-                              showDialog(
+                              await showDialog(
                                 context: context,
                                 builder: (dContext) => SimpleDialog(
                                   title: const Text('Response'),
@@ -197,8 +197,9 @@ class _LoginTabet extends StatelessWidget {
                                     ),
                                   ],
                                 ),
+                              ).then(
+                                (_) => context.goNamed(DevicePage.name),
                               );
-                              context.goNamed(DevicePage.name);
                             }
                           },
                         );
