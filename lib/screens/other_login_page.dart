@@ -61,7 +61,7 @@ class _LoginMobile extends HookWidget {
                   await login(context).then(
                     (token) async {
                       if (token != null) {
-                        showDialog(
+                        await showDialog(
                           context: context,
                           builder: (dContext) => SimpleDialog(
                             title: const Text('Response'),
@@ -76,8 +76,9 @@ class _LoginMobile extends HookWidget {
                               ),
                             ],
                           ),
+                        ).then(
+                          (_) => context.goNamed(DevicePage.name),
                         );
-                        context.goNamed(DevicePage.name);
                       }
                     },
                   );
