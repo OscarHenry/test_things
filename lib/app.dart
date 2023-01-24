@@ -79,7 +79,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     // initUniLinks();
     return GraphQLProvider(
-      client: getIt.get<AppClient>().client,
+      client: getIt.get<AppClient>().clientNotifier,
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => ChatController()),

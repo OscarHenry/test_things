@@ -31,7 +31,9 @@ class AppClient {
   }
   final String baseUrl;
 
-  late ValueNotifier<GraphQLClient> client;
+  late ValueNotifier<GraphQLClient> clientNotifier;
+
+  GraphQLClient get client => clientNotifier.value;
 
   void initializeClient() {
     final HttpLink httpLink = HttpLink(baseUrl);
@@ -44,7 +46,7 @@ class AppClient {
     //
     // final Link link = authLink.concat(httpLink);
 
-    client = ValueNotifier(
+    clientNotifier = ValueNotifier(
       GraphQLClient(
         link: httpLink,
         // The default store is the InMemoryStore, which does NOT persist to disk

@@ -58,8 +58,29 @@ class _LoginMobile extends HookWidget {
               verticalSpace,
               ElevatedButton(
                 onPressed: () async {
-                  await login(context);
-                  // context.goNamed(DevicePage.name);
+                  await login(context).then(
+                    (token) async {
+                      if (token != null) {
+                        showDialog(
+                          context: context,
+                          builder: (dContext) => SimpleDialog(
+                            title: const Text('Response'),
+                            alignment: Alignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(24.0),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(token),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                        context.goNamed(DevicePage.name);
+                      }
+                    },
+                  );
                 },
                 child: const Text('Login'),
               ),
@@ -91,8 +112,8 @@ class _LoginMobile extends HookWidget {
     );
   }
 
-  Future<void> login(BuildContext context) async {
-    final client = getIt.get<AppClient>().client.value;
+  Future<String?> login(BuildContext context) async {
+    final client = getIt.get<AppClient>().client;
     final mutationOption = MutationOptions(
       document: gql('''mutation {
   login(input: { email: "zascontab@gmail.com", password: "vamosatest" }) {
@@ -106,24 +127,11 @@ class _LoginMobile extends HookWidget {
       log('${response.data}', name: 'Error');
       log('${response.exception}', name: 'Error');
 
-      await showDialog(
-        context: context,
-        builder: (dContext) => SimpleDialog(
-          title: const Text('Response'),
-          alignment: Alignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Align(
-                alignment: Alignment.center,
-                child: Text('${response.data}'),
-              ),
-            ),
-          ],
-        ),
-      );
+      var login = response.data?['login'];
+      return login?['token'];
     } catch (e, s) {
       log('$e\n$s', name: 'Error');
+      return null;
     }
   }
 }
@@ -232,7 +240,7 @@ class _LoginTabet extends StatelessWidget {
   }
 
   Future<String?> login(BuildContext context) async {
-    final client = getIt.get<AppClient>().client.value;
+    final client = getIt.get<AppClient>().client;
     final mutationOption = MutationOptions(
       document: gql('''mutation {
   login(input: { email: "zascontab@gmail.com", password: "vamosatest" }) {
