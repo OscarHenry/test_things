@@ -12,6 +12,7 @@ import 'package:test_things/screens/history_page.dart';
 import 'package:test_things/screens/login_page.dart';
 import 'package:test_things/component/app_scaffold.dart';
 import 'package:test_things/screens/notification_page.dart';
+import 'package:test_things/screens/other_login_page.dart';
 import 'package:test_things/screens/policy_privacy_page.dart';
 import 'package:test_things/screens/setting_page.dart';
 import 'package:test_things/screens/shop_device_page.dart';
@@ -26,14 +27,19 @@ final GlobalKey<NavigatorState> _chatNavigatorKey =
 
 GoRouter router = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: LoginPage.path,
+  initialLocation: OtherLoginPage.path,
   debugLogDiagnostics: true,
   routes: [
     GoRoute(
-      path: LoginPage.path,
-      name: LoginPage.name,
-      builder: (context, state) => const LoginPage(),
+      path: OtherLoginPage.path,
+      name: OtherLoginPage.name,
+      builder: (context, state) => const OtherLoginPage(),
     ),
+    // GoRoute(
+    //   path: LoginPage.path,
+    //   name: LoginPage.name,
+    //   builder: (context, state) => const LoginPage(),
+    // ),
     ShellRoute(
       navigatorKey: _homeNavigatorKey,
       builder: (context, state, child) => AppScaffold(

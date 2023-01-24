@@ -4,10 +4,12 @@ import 'dart:developer';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:test_things/core/router/app_router.dart';
 import 'package:test_things/core/styles/app_theme.dart';
 import 'package:test_things/core/styles/custom_colors.dart';
+import 'package:test_things/main.dart';
 import 'package:test_things/management/chat_controller.dart';
 import 'package:test_things/screens/login_page.dart';
 import 'package:test_things/screens/setting_page.dart';
@@ -76,29 +78,38 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     // initUniLinks();
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => ChatController()),
-      ],
-      child: MaterialApp.router(
-        title: 'Test Things App',
-        locale: DevicePreview.locale(context),
-        builder: DevicePreview.appBuilder,
-        themeMode: ThemeMode.system,
-        color: CustomColorsHelper.primaryBlue,
-        theme: ThemeData.light(useMaterial3: true).copyWith(
-          colorScheme: ColorScheme.fromSwatch(
-            primarySwatch:
-                convertToMaterialColor(CustomColorsHelper.primaryBlue),
+    return GraphQLProvider(
+      client: getIt.get<AppClient>().client,
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => ChatController()),
+        ],
+        child: MaterialApp.router(
+          title: 'Test Things App',
+          locale: DevicePreview.locale(context),
+          builder: DevicePreview.appBuilder,
+          themeMode: ThemeMode.system,
+          color: CustomColorsHelper.primaryBlue,
+          theme: ThemeData.light(useMaterial3: true).copyWith(
+            colorScheme: ColorScheme.fromSwatch(
+              primarySwatch:
+                  convertToMaterialColor(CustomColorsHelper.primaryBlue),
+            ),
+            inputDecorationTheme: const InputDecorationTheme(
+              isDense: false,
+            ),
           ),
-        ),
-        darkTheme: ThemeData.dark(useMaterial3: true).copyWith(
-          colorScheme: const ColorScheme.dark().copyWith(
-            primary: convertToMaterialColor(CustomColorsHelper.primaryBlue),
+          darkTheme: ThemeData.dark(useMaterial3: true).copyWith(
+            colorScheme: const ColorScheme.dark().copyWith(
+              primary: convertToMaterialColor(CustomColorsHelper.primaryBlue),
+            ),
+            inputDecorationTheme: const InputDecorationTheme(
+              isDense: false,
+            ),
           ),
+          useInheritedMediaQuery: true,
+          routerConfig: router,
         ),
-        useInheritedMediaQuery: true,
-        routerConfig: router,
       ),
     );
   }

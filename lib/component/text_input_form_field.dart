@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class TextInputFormField extends StatelessWidget {
   const TextInputFormField({
+    super.key,
     required this.title,
     this.hintText,
     this.keyboardType,
@@ -51,7 +52,9 @@ class TextInputFormField extends StatelessWidget {
             onEditingComplete: onSubmitted,
             focusNode: focusNode,
             onTap: () => Scrollable.ensureVisible(context),
+            cursorHeight: 15,
             decoration: InputDecoration(
+              isDense: true,
               hintText: hintText,
               filled: true,
               fillColor: Colors.blueGrey.shade50,
@@ -81,6 +84,9 @@ class TextInputFormField extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+              constraints: const BoxConstraints.tightForFinite(height: 30),
             ),
           ),
         ],

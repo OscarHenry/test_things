@@ -1,0 +1,8 @@
+mutation Login{
+    login(
+        email: "test@test.com"
+        password: "test123"
+        applicationId: 2
+        appVersion: "0.0.1"
+    )
+}

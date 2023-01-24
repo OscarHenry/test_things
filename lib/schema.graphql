@@ -2,139 +2,2294 @@
 
 schema {
     query: Query
+    mutation: Mutation
 }
 
-directive @cacheControl(maxAge: Int, scope: CacheControlScope) on OBJECT | FIELD_DEFINITION | INTERFACE
+"The `@defer` directive may be provided for fragment spreads and inline fragments to inform the executor to delay the execution of the current fragment to indicate deprioritization of the current fragment. A query with `@defer` directive will cause the request to potentially return multiple responses, where non-deferred data is delivered in the initial response and data deferred is delivered in a subsequent response. `@include` and `@skip` take precedence over `@defer`."
+directive @defer(
+    "Deferred when true."
+    if: Boolean,
+    "If this argument label has a value other than null, it will be passed on to the result of this defer directive. This label is intended to give client applications a way to identify to which fragment a deferred result belongs to."
+    label: String
+) on FRAGMENT_SPREAD | INLINE_FRAGMENT
 
-type Character {
-    "Time at which the character was created in the database."
-    created: String
-    "Episodes in which this character appeared."
-    episode: [Episode]!
-    "The gender of the character ('Female', 'Male', 'Genderless' or 'unknown')."
-    gender: String
-    "The id of the character."
-    id: ID
-    """
+"The `@stream` directive may be provided for a field of `List` type so that the backend can leverage technology such as asynchronous iterators to provide a partial list in the initial response, and additional list items in subsequent responses. `@include` and `@skip` take precedence over `@stream`."
+directive @stream(
+    "Streamed when true."
+    if: Boolean,
+    "The initial elements that shall be send down to the consumer."
+    initialCount: Int! = 0,
+    "If this argument label has a value other than null, it will be passed on to the result of this stream directive. This label is intended to give client applications a way to identify to which fragment a streamed result belongs to."
+    label: String
+) on FIELD
 
-    Link to the character's image.
-    All images are 300x300px and most are medium shots or portraits since they are intended to be used as avatars.
-    """
-    image: String
-    "The character's last known location"
-    location: Location
-    "The name of the character."
+type Application {
+    aPIKey: String!
+    active: Boolean!
+    applicationID: Long!
+    applicationVariables: [VariableType!]!
+    description: String!
+    minimumVersion: String!
+    modificationTime: DateTime
+    modifyingUser: ApplicationUser
+    modifyingUserID: String
+    nombre: String!
+    roles: [ApplicationRole!]!
+    siglas: String!
+    userPersonMarkers: [UserPersonMarker!]!
+}
+
+type ApplicationRole {
+    application: Application!
+    applicationId: Long!
+    concurrencyStamp: String
+    id: String
+    modificationTime: DateTime
+    modifyingUser: ApplicationUser
+    modifyingUserID: String
     name: String
-    "The character's origin location"
-    origin: Location
-    "The species of the character."
-    species: String
-    "The status of the character ('Alive', 'Dead' or 'unknown')."
-    status: String
-    "The type or subspecies of the character."
-    type: String
+    normalizedName: String
+    permissions: [RolePermission!]!
+    territoryGroupRoles: [TerritoryGroupRole!]!
+    territoryRoles: [TerritoryRole!]!
 }
 
-type Characters {
-    info: Info
-    results: [Character]
+type ApplicationUser {
+    accessFailedCount: Int!
+    applications: [Application!]!
+    concurrencyStamp: String
+    email: String
+    emailConfirmed: Boolean!
+    endUserPersonMarkers: [UserPersonMarker!]!
+    id: String
+    lockoutEnabled: Boolean!
+    lockoutEnd: DateTime
+    menores: [Person!]!
+    modificationTime: DateTime
+    modifyingUser: ApplicationUser
+    modifyingUserID: String
+    normalizedEmail: String
+    normalizedUserName: String
+    passwordHash: String
+    phoneNumber: String
+    phoneNumberConfirmed: Boolean!
+    securityStamp: String
+    startUserPersonMarkers: [UserPersonMarker!]!
+    twoFactorEnabled: Boolean!
+    userName: String
+    userTerritories: [UserTerritory!]!
 }
 
-type Episode {
-    "The air date of the episode."
-    air_date: String
-    "List of characters who have been seen in the episode."
-    characters: [Character]!
-    "Time at which the episode was created in the database."
-    created: String
-    "The code of the episode."
-    episode: String
-    "The id of the episode."
-    id: ID
-    "The name of the episode."
-    name: String
+"A connection to a list of items."
+type ApplicationsConnection {
+    "A list of edges."
+    edges: [ApplicationsEdge!]
+    "A flattened list of the nodes."
+    nodes: [Application!]
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
 }
 
-type Episodes {
-    info: Info
-    results: [Episode]
+"An edge in a connection."
+type ApplicationsEdge {
+    "A cursor for use in pagination."
+    cursor: String!
+    "The item at the end of the edge."
+    node: Application!
 }
 
-type Info {
-    "The length of the response."
-    count: Int
-    "Number of the next page (if it exists)"
-    next: Int
-    "The amount of pages."
-    pages: Int
-    "Number of the previous page (if it exists)"
-    prev: Int
+type Area {
+    areaID: Long!
+    modificationTime: DateTime
+    modifyingUserID: String
+    municipality: Municipality!
+    municipalityID: Long!
+    name: String!
+    relativeLocations: [RelativeLocation!]!
 }
 
-type Location {
-    "Time at which the location was created in the database."
-    created: String
-    "The dimension in which the location is located."
-    dimension: String
-    "The id of the location."
-    id: ID
-    "The name of the location."
-    name: String
-    "List of characters who have been last seen in the location."
-    residents: [Character]!
-    "The type of the location."
-    type: String
+"A connection to a list of items."
+type AreasConnection {
+    "A list of edges."
+    edges: [AreasEdge!]
+    "A flattened list of the nodes."
+    nodes: [Area!]
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
 }
 
-type Locations {
-    info: Info
-    results: [Location]
+"An edge in a connection."
+type AreasEdge {
+    "A cursor for use in pagination."
+    cursor: String!
+    "The item at the end of the edge."
+    node: Area!
+}
+
+"A connection to a list of items."
+type BranchPersonVariablesConnection {
+    "A list of edges."
+    edges: [BranchPersonVariablesEdge!]
+    "A flattened list of the nodes."
+    nodes: [PersonVariable!]
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type BranchPersonVariablesEdge {
+    "A cursor for use in pagination."
+    cursor: String!
+    "The item at the end of the edge."
+    node: PersonVariable!
+}
+
+type Cohabitant {
+    cohabitantID: Long!
+    cohabitantType: CohabitantType!
+    description: String!
+    modificationTime: DateTime
+    modifyingUserID: String
+    name: String!
+    personVariables: [PersonVariable!]!
+}
+
+"A connection to a list of items."
+type CohabitantsConnection {
+    "A list of edges."
+    edges: [CohabitantsEdge!]
+    "A flattened list of the nodes."
+    nodes: [Cohabitant!]
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type CohabitantsEdge {
+    "A cursor for use in pagination."
+    cursor: String!
+    "The item at the end of the edge."
+    node: Cohabitant!
+}
+
+type EnumGroup {
+    enumGroupID: Long!
+    enumItems: [EnumItem!]!
+    modificationTime: DateTime
+    modifyingUserID: String
+    name: String!
+    variableTypes: [VariableType!]!
+}
+
+"A connection to a list of items."
+type EnumGroupsConnection {
+    "A list of edges."
+    edges: [EnumGroupsEdge!]
+    "A flattened list of the nodes."
+    nodes: [EnumGroup!]
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type EnumGroupsEdge {
+    "A cursor for use in pagination."
+    cursor: String!
+    "The item at the end of the edge."
+    node: EnumGroup!
+}
+
+type EnumItem {
+    enumGroup: EnumGroup!
+    enumGroupID: Long!
+    modificationTime: DateTime
+    modifyingUserID: String
+    name: String!
+    personVariables: [PersonVariable!]!
+}
+
+"A connection to a list of items."
+type EnumItemsConnection {
+    "A list of edges."
+    edges: [EnumItemsEdge!]
+    "A flattened list of the nodes."
+    nodes: [EnumItem!]
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type EnumItemsEdge {
+    "A cursor for use in pagination."
+    cursor: String!
+    "The item at the end of the edge."
+    node: EnumItem!
+}
+
+"A connection to a list of items."
+type FindPersonConnection {
+    "A list of edges."
+    edges: [FindPersonEdge!]
+    "A flattened list of the nodes."
+    nodes: [Person!]
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type FindPersonEdge {
+    "A cursor for use in pagination."
+    cursor: String!
+    "The item at the end of the edge."
+    node: Person!
+}
+
+type MarkerType {
+    markerMode: MarkerMode!
+    markerTypeID: Long!
+    modificationTime: DateTime
+    modifyingUserID: String
+    name: String!
+    userPersonMarkers: [UserPersonMarker!]!
+}
+
+"A connection to a list of items."
+type MunicipalitiesConnection {
+    "A list of edges."
+    edges: [MunicipalitiesEdge!]
+    "A flattened list of the nodes."
+    nodes: [Municipality!]
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type MunicipalitiesEdge {
+    "A cursor for use in pagination."
+    cursor: String!
+    "The item at the end of the edge."
+    node: Municipality!
+}
+
+type Municipality {
+    areas: [Area!]!
+    modificationTime: DateTime
+    modifyingUserID: String
+    municipalityID: Long!
+    name: String!
+    province: Province!
+    provinceID: Long!
+}
+
+type Mutation {
+    basicTestSeed(userID: String!): String!
+    calculateValue(input: CreatePersonVariableInput!, personVariableID: Long!): TupleOfStringAndString
+    createApplication(input: CreateApplicationInput!): Application!
+    createApplicationRole(input: CreateApplicationRoleInput!): ApplicationRole!
+    createArea(input: CreateAreaInput!): Area!
+    createCohabitant(input: CreateCohabitantInput!): Cohabitant!
+    createConditionDependency(input: CreateVariableTypeConditionDependencyInput!): VariableTypeConditionDependency!
+    createEnumItem(input: CreateEnumItemInput!): EnumItem!
+    createGroup(input: CreateEnumGroupInput!): EnumGroup!
+    createMunicipality(input: CreateMunicipalityInput!): Municipality!
+    createPerson(input: CreatePersonInput!): Person!
+    createPersonStatus(input: CreatePersonStatusInput!): PersonStatus!
+    createPersonVariable(input: CreatePersonVariableInput!): PersonVariable!
+    createProvince(input: CreateProvinceInput!): Province!
+    createRolePermission(input: CreateRolePermissionInput!): RolePermission!
+    createSection(input: CreateSectionInput!): Section!
+    createTerritoryRole(input: CreateTerritoryRoleInput!): TerritoryRole!
+    createTerrytory(input: CreateTerritoryInput!): Territory!
+    createUserTerritory(input: CreateUserTerritoryInput!): UserTerritory!
+    createVariableType(input: CreateVariableTypeInput!): VariableType!
+    login(appVersion: String!, applicationId: Long!, email: String!, password: String!): String
+    register(email: String!, password: String!): String!
+}
+
+"Information about pagination in a connection."
+type PageInfo {
+    "When paginating forwards, the cursor to continue."
+    endCursor: String
+    "Indicates whether more edges exist following the set defined by the clients arguments."
+    hasNextPage: Boolean!
+    "Indicates whether more edges exist prior the set defined by the clients arguments."
+    hasPreviousPage: Boolean!
+    "When paginating backwards, the cursor to continue."
+    startCursor: String
+}
+
+"A connection to a list of items."
+type PeopleConnection {
+    "A list of edges."
+    edges: [PeopleEdge!]
+    "A flattened list of the nodes."
+    nodes: [Person!]
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type PeopleEdge {
+    "A cursor for use in pagination."
+    cursor: String!
+    "The item at the end of the edge."
+    node: Person!
+}
+
+type Person {
+    apellidos: String
+    cI: String
+    isFamily: Boolean!
+    isFather: Boolean!
+    isMother: Boolean!
+    isSon: Boolean!
+    modificationTime: DateTime
+    modifyingUser: ApplicationUser
+    modifyingUserID: String
+    nombre: String
+    personID: Long!
+    personStatus: PersonStatus!
+    personVariables: [PersonVariable!]!
+    referredPersonVariableValues: [PersonVariable!]!
+    statusID: Long
+    tutorCI: String
+    userPersonMarkers: [UserPersonMarker!]!
+}
+
+type PersonStatus {
+    description: String!
+    modificationTime: DateTime
+    modifyingUserID: String
+    people: [Person!]!
+    personStatusID: Long!
+    status: String!
+}
+
+"A connection to a list of items."
+type PersonStatusesConnection {
+    "A list of edges."
+    edges: [PersonStatusesEdge!]
+    "A flattened list of the nodes."
+    nodes: [PersonStatus!]
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type PersonStatusesEdge {
+    "A cursor for use in pagination."
+    cursor: String!
+    "The item at the end of the edge."
+    node: PersonStatus!
+}
+
+type PersonVariable {
+    boolValue: Boolean
+    calculatedValue: String
+    calculatedValueTime: DateTime
+    calculatedValueType: String
+    cohabitant: Cohabitant
+    cohabitantID: Long
+    dateTimeValue: Boolean
+    decimalValue: Decimal
+    doubleValue: Decimal
+    enumGroupID: Long
+    enumItem: EnumItem
+    enumValue: String
+    fileValue: Boolean
+    goPublic: PersonVariable!
+    lastValue: Boolean!
+    longValue: Decimal
+    modificationTime: DateTime
+    modifyingUserID: String
+    person: Person
+    personID: Long
+    personValue: Person
+    personValueID: Long
+    personVariableID: Long!
+    relativeLocation: RelativeLocation
+    relativeLocationID: Long
+    stringValue: String
+    territory: Territory
+    territoryID: Long!
+    userPersonMarkerPersonVariables: [UserPersonMarkerPersonVariable!]!
+    variableType: VariableType!
+    variableTypeID: Long!
+}
+
+"A connection to a list of items."
+type PersonVariablesConnection {
+    "A list of edges."
+    edges: [PersonVariablesEdge!]
+    "A flattened list of the nodes."
+    nodes: [PersonVariable!]
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type PersonVariablesEdge {
+    "A cursor for use in pagination."
+    cursor: String!
+    "The item at the end of the edge."
+    node: PersonVariable!
+}
+
+"A connection to a list of items."
+type PersonsConnection {
+    "A list of edges."
+    edges: [PersonsEdge!]
+    "A flattened list of the nodes."
+    nodes: [Person!]
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type PersonsEdge {
+    "A cursor for use in pagination."
+    cursor: String!
+    "The item at the end of the edge."
+    node: Person!
+}
+
+type Province {
+    modificationTime: DateTime
+    modifyingUserID: String
+    municipalities: [Municipality!]!
+    name: String!
+    provinceID: Long!
+}
+
+"A connection to a list of items."
+type ProvincesConnection {
+    "A list of edges."
+    edges: [ProvincesEdge!]
+    "A flattened list of the nodes."
+    nodes: [Province!]
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type ProvincesEdge {
+    "A cursor for use in pagination."
+    cursor: String!
+    "The item at the end of the edge."
+    node: Province!
 }
 
 type Query {
-    "Get a specific character by ID"
-    character(id: ID!): Character
-    "Get the list of all characters"
-    characters(filter: FilterCharacter, page: Int): Characters
-    "Get a list of characters selected by ids"
-    charactersByIds(ids: [ID!]!): [Character]
-    "Get a specific episode by ID"
-    episode(id: ID!): Episode
-    "Get the list of all episodes"
-    episodes(filter: FilterEpisode, page: Int): Episodes
-    "Get a list of episodes selected by ids"
-    episodesByIds(ids: [ID!]!): [Episode]
-    "Get a specific locations by ID"
-    location(id: ID!): Location
-    "Get the list of all locations"
-    locations(filter: FilterLocation, page: Int): Locations
-    "Get a list of locations selected by ids"
-    locationsByIds(ids: [ID!]!): [Location]
+    applications(
+        "Returns the elements in the list that come after the specified cursor."
+        after: String,
+        "Returns the elements in the list that come before the specified cursor."
+        before: String,
+        "Returns the first _n_ elements from the list."
+        first: Int,
+        "Returns the last _n_ elements from the list."
+        last: Int,
+        order: [ApplicationSortInput!],
+        where: ApplicationFilterInput
+    ): ApplicationsConnection
+    areas(
+        "Returns the elements in the list that come after the specified cursor."
+        after: String,
+        "Returns the elements in the list that come before the specified cursor."
+        before: String,
+        "Returns the first _n_ elements from the list."
+        first: Int,
+        "Returns the last _n_ elements from the list."
+        last: Int,
+        order: [AreaSortInput!],
+        where: AreaFilterInput
+    ): AreasConnection
+    branchPersonVariables(
+        "Returns the elements in the list that come after the specified cursor."
+        after: String,
+        "Returns the elements in the list that come before the specified cursor."
+        before: String,
+        "Returns the first _n_ elements from the list."
+        first: Int,
+        "Returns the last _n_ elements from the list."
+        last: Int,
+        order: [PersonVariableSortInput!],
+        where: PersonVariableFilterInput
+    ): BranchPersonVariablesConnection
+    cohabitants(
+        "Returns the elements in the list that come after the specified cursor."
+        after: String,
+        "Returns the elements in the list that come before the specified cursor."
+        before: String,
+        "Returns the first _n_ elements from the list."
+        first: Int,
+        "Returns the last _n_ elements from the list."
+        last: Int,
+        order: [CohabitantSortInput!],
+        where: CohabitantFilterInput
+    ): CohabitantsConnection
+    enumGroups(
+        "Returns the elements in the list that come after the specified cursor."
+        after: String,
+        "Returns the elements in the list that come before the specified cursor."
+        before: String,
+        "Returns the first _n_ elements from the list."
+        first: Int,
+        "Returns the last _n_ elements from the list."
+        last: Int,
+        order: [EnumGroupSortInput!],
+        where: EnumGroupFilterInput
+    ): EnumGroupsConnection
+    enumItems(
+        "Returns the elements in the list that come after the specified cursor."
+        after: String,
+        "Returns the elements in the list that come before the specified cursor."
+        before: String,
+        "Returns the first _n_ elements from the list."
+        first: Int,
+        "Returns the last _n_ elements from the list."
+        last: Int,
+        order: [EnumItemSortInput!],
+        where: EnumItemFilterInput
+    ): EnumItemsConnection
+    findPerson(
+        "Returns the elements in the list that come after the specified cursor."
+        after: String,
+        "Returns the elements in the list that come before the specified cursor."
+        before: String,
+        "Returns the first _n_ elements from the list."
+        first: Int,
+        "Returns the last _n_ elements from the list."
+        last: Int,
+        order: [PersonSortInput!],
+        searchQuery: String!,
+        where: PersonFilterInput
+    ): FindPersonConnection
+    municipalities(
+        "Returns the elements in the list that come after the specified cursor."
+        after: String,
+        "Returns the elements in the list that come before the specified cursor."
+        before: String,
+        "Returns the first _n_ elements from the list."
+        first: Int,
+        "Returns the last _n_ elements from the list."
+        last: Int,
+        order: [MunicipalitySortInput!],
+        where: MunicipalityFilterInput
+    ): MunicipalitiesConnection
+    people(
+        "Returns the elements in the list that come after the specified cursor."
+        after: String,
+        "Returns the elements in the list that come before the specified cursor."
+        before: String,
+        "Returns the first _n_ elements from the list."
+        first: Int,
+        "Returns the last _n_ elements from the list."
+        last: Int,
+        order: [PersonSortInput!],
+        where: PersonFilterInput
+    ): PeopleConnection
+    personStatuses(
+        "Returns the elements in the list that come after the specified cursor."
+        after: String,
+        "Returns the elements in the list that come before the specified cursor."
+        before: String,
+        "Returns the first _n_ elements from the list."
+        first: Int,
+        "Returns the last _n_ elements from the list."
+        last: Int,
+        order: [PersonStatusSortInput!],
+        where: PersonStatusFilterInput
+    ): PersonStatusesConnection
+    personVariables(
+        "Returns the elements in the list that come after the specified cursor."
+        after: String,
+        "Returns the elements in the list that come before the specified cursor."
+        before: String,
+        "Returns the first _n_ elements from the list."
+        first: Int,
+        "Returns the last _n_ elements from the list."
+        last: Int,
+        order: [PersonVariableSortInput!],
+        where: PersonVariableFilterInput
+    ): PersonVariablesConnection
+    persons(
+        "Returns the elements in the list that come after the specified cursor."
+        after: String,
+        "Returns the elements in the list that come before the specified cursor."
+        before: String,
+        "Returns the first _n_ elements from the list."
+        first: Int,
+        "Returns the last _n_ elements from the list."
+        last: Int,
+        order: [PersonSortInput!],
+        where: PersonFilterInput
+    ): PersonsConnection
+    provinces(
+        "Returns the elements in the list that come after the specified cursor."
+        after: String,
+        "Returns the elements in the list that come before the specified cursor."
+        before: String,
+        "Returns the first _n_ elements from the list."
+        first: Int,
+        "Returns the last _n_ elements from the list."
+        last: Int,
+        order: [ProvinceSortInput!],
+        where: ProvinceFilterInput
+    ): ProvincesConnection
+    relativeLocation(
+        "Returns the elements in the list that come after the specified cursor."
+        after: String,
+        "Returns the elements in the list that come before the specified cursor."
+        before: String,
+        "Returns the first _n_ elements from the list."
+        first: Int,
+        "Returns the last _n_ elements from the list."
+        last: Int,
+        order: [RelativeLocationSortInput!],
+        where: RelativeLocationFilterInput
+    ): RelativeLocationConnection
+    rolePermissions(
+        "Returns the elements in the list that come after the specified cursor."
+        after: String,
+        "Returns the elements in the list that come before the specified cursor."
+        before: String,
+        "Returns the first _n_ elements from the list."
+        first: Int,
+        "Returns the last _n_ elements from the list."
+        last: Int,
+        order: [RolePermissionSortInput!],
+        where: RolePermissionFilterInput
+    ): RolePermissionsConnection
+    roles(
+        "Returns the elements in the list that come after the specified cursor."
+        after: String,
+        "Returns the elements in the list that come before the specified cursor."
+        before: String,
+        "Returns the first _n_ elements from the list."
+        first: Int,
+        "Returns the last _n_ elements from the list."
+        last: Int,
+        order: [ApplicationRoleSortInput!],
+        where: ApplicationRoleFilterInput
+    ): RolesConnection
+    sections(
+        "Returns the elements in the list that come after the specified cursor."
+        after: String,
+        "Returns the elements in the list that come before the specified cursor."
+        before: String,
+        "Returns the first _n_ elements from the list."
+        first: Int,
+        "Returns the last _n_ elements from the list."
+        last: Int,
+        order: [SectionSortInput!],
+        where: SectionFilterInput
+    ): SectionsConnection
+    specificPersonPersonVariables(
+        "Returns the elements in the list that come after the specified cursor."
+        after: String,
+        "Returns the elements in the list that come before the specified cursor."
+        before: String,
+        "Returns the first _n_ elements from the list."
+        first: Int,
+        "Returns the last _n_ elements from the list."
+        last: Int,
+        order: [PersonVariableSortInput!],
+        personID: Long!,
+        where: PersonVariableFilterInput
+    ): SpecificPersonPersonVariablesConnection
+    territories(
+        "Returns the elements in the list that come after the specified cursor."
+        after: String,
+        "Returns the elements in the list that come before the specified cursor."
+        before: String,
+        "Returns the first _n_ elements from the list."
+        first: Int,
+        "Returns the last _n_ elements from the list."
+        last: Int,
+        order: [TerritorySortInput!],
+        where: TerritoryFilterInput
+    ): TerritoriesConnection
+    territoriesPersonVariables(
+        "Returns the elements in the list that come after the specified cursor."
+        after: String,
+        "Returns the elements in the list that come before the specified cursor."
+        before: String,
+        "Returns the first _n_ elements from the list."
+        first: Int,
+        "Returns the last _n_ elements from the list."
+        last: Int,
+        order: [PersonVariableSortInput!],
+        where: PersonVariableFilterInput
+    ): TerritoriesPersonVariablesConnection
+    territoryRoles(
+        "Returns the elements in the list that come after the specified cursor."
+        after: String,
+        "Returns the elements in the list that come before the specified cursor."
+        before: String,
+        "Returns the first _n_ elements from the list."
+        first: Int,
+        "Returns the last _n_ elements from the list."
+        last: Int,
+        order: [TerritoryRoleSortInput!],
+        where: TerritoryRoleFilterInput
+    ): TerritoryRolesConnection
+    testCondition(personID: Long!, variableTypeID: Long!): Boolean
+    textCode(code: String!): String
+    user: ApplicationUser
+    userID: String
+    userPersonMarker(
+        "Returns the elements in the list that come after the specified cursor."
+        after: String,
+        "Returns the elements in the list that come before the specified cursor."
+        before: String,
+        "Returns the first _n_ elements from the list."
+        first: Int,
+        "Returns the last _n_ elements from the list."
+        last: Int,
+        order: [UserPersonMarkerSortInput!],
+        where: UserPersonMarkerFilterInput
+    ): UserPersonMarkerConnection
+    variableTypes(
+        "Returns the elements in the list that come after the specified cursor."
+        after: String,
+        "Returns the elements in the list that come before the specified cursor."
+        before: String,
+        "Returns the first _n_ elements from the list."
+        first: Int,
+        "Returns the last _n_ elements from the list."
+        last: Int,
+        order: [VariableTypeSortInput!],
+        where: VariableTypeFilterInput
+    ): VariableTypesConnection
 }
 
-enum CacheControlScope {
+type RelativeLocation {
+    area: Area!
+    areaID: Long!
+    modificationTime: DateTime
+    modifyingUserID: String
+    name: String!
+    personVariables: [PersonVariable!]!
+    relativeLocationID: Long!
+}
+
+"A connection to a list of items."
+type RelativeLocationConnection {
+    "A list of edges."
+    edges: [RelativeLocationEdge!]
+    "A flattened list of the nodes."
+    nodes: [RelativeLocation!]
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type RelativeLocationEdge {
+    "A cursor for use in pagination."
+    cursor: String!
+    "The item at the end of the edge."
+    node: RelativeLocation!
+}
+
+type RolePermission {
+    modificationTime: DateTime
+    modifyingUser: ApplicationUser
+    modifyingUserID: String
+    permission: Permission!
+    role: ApplicationRole!
+    roleID: String!
+}
+
+"A connection to a list of items."
+type RolePermissionsConnection {
+    "A list of edges."
+    edges: [RolePermissionsEdge!]
+    "A flattened list of the nodes."
+    nodes: [RolePermission!]
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type RolePermissionsEdge {
+    "A cursor for use in pagination."
+    cursor: String!
+    "The item at the end of the edge."
+    node: RolePermission!
+}
+
+"A connection to a list of items."
+type RolesConnection {
+    "A list of edges."
+    edges: [RolesEdge!]
+    "A flattened list of the nodes."
+    nodes: [ApplicationRole!]
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type RolesEdge {
+    "A cursor for use in pagination."
+    cursor: String!
+    "The item at the end of the edge."
+    node: ApplicationRole!
+}
+
+type Section {
+    modificationTime: DateTime
+    modifyingUserID: String
+    name: String!
+    sectionID: Long!
+    territories: [Territory!]!
+}
+
+"A connection to a list of items."
+type SectionsConnection {
+    "A list of edges."
+    edges: [SectionsEdge!]
+    "A flattened list of the nodes."
+    nodes: [Section!]
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type SectionsEdge {
+    "A cursor for use in pagination."
+    cursor: String!
+    "The item at the end of the edge."
+    node: Section!
+}
+
+"A connection to a list of items."
+type SpecificPersonPersonVariablesConnection {
+    "A list of edges."
+    edges: [SpecificPersonPersonVariablesEdge!]
+    "A flattened list of the nodes."
+    nodes: [PersonVariable!]
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type SpecificPersonPersonVariablesEdge {
+    "A cursor for use in pagination."
+    cursor: String!
+    "The item at the end of the edge."
+    node: PersonVariable!
+}
+
+type SuscriptionTerritory {
+    modificationTime: DateTime
+    modifyingUserID: String
+    territory: Territory!
+    territoryID: Long!
+    variableType: VariableType!
+    variableTypeID: Long!
+}
+
+"A connection to a list of items."
+type TerritoriesConnection {
+    "A list of edges."
+    edges: [TerritoriesEdge!]
+    "A flattened list of the nodes."
+    nodes: [Territory!]
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type TerritoriesEdge {
+    "A cursor for use in pagination."
+    cursor: String!
+    "The item at the end of the edge."
+    node: Territory!
+}
+
+"A connection to a list of items."
+type TerritoriesPersonVariablesConnection {
+    "A list of edges."
+    edges: [TerritoriesPersonVariablesEdge!]
+    "A flattened list of the nodes."
+    nodes: [PersonVariable!]
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type TerritoriesPersonVariablesEdge {
+    "A cursor for use in pagination."
+    cursor: String!
+    "The item at the end of the edge."
+    node: PersonVariable!
+}
+
+type Territory {
+    modificationTime: DateTime
+    modifyingUserID: String
+    name: String!
+    personVariables: [PersonVariable!]!
+    section: Section!
+    sectionID: Long!
+    suscriptionTerritories: [SuscriptionTerritory!]!
+    territoryGroupTerritories: [TerritoryGroupTerritory!]!
+    territoryID: Long!
+    territoryRole: [TerritoryRole!]!
+    userTerritories: [UserTerritory!]!
+}
+
+type TerritoryGroup {
+    modificationTime: DateTime
+    modifyingUserID: String
+    name: String!
+    section: Section!
+    sectionID: Long!
+    territoryGroupID: Long!
+    territoryGroupRoles: [TerritoryGroupRole!]!
+    territoryGroupTerritories: [TerritoryGroupTerritory!]!
+}
+
+type TerritoryGroupRole {
+    modificationTime: DateTime
+    modifyingUserID: String
+    role: ApplicationRole!
+    roleID: String!
+    territoryGroup: TerritoryGroup!
+    territoryGroupID: Long!
+}
+
+type TerritoryGroupTerritory {
+    modificationTime: DateTime
+    modifyingUserID: String
+    territory: Territory!
+    territoryGroup: TerritoryGroup!
+    territoryGroupID: Long!
+    territoryID: Long!
+}
+
+type TerritoryRole {
+    modificationTime: DateTime
+    modifyingUserID: String
+    role: ApplicationRole!
+    roleID: String!
+    territory: Territory!
+    territoryID: Long!
+}
+
+"A connection to a list of items."
+type TerritoryRolesConnection {
+    "A list of edges."
+    edges: [TerritoryRolesEdge!]
+    "A flattened list of the nodes."
+    nodes: [TerritoryRole!]
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type TerritoryRolesEdge {
+    "A cursor for use in pagination."
+    cursor: String!
+    "The item at the end of the edge."
+    node: TerritoryRole!
+}
+
+type TupleOfStringAndString {
+    item1: String!
+    item2: String!
+}
+
+type UserPersonMarker {
+    application: Application!
+    applicationID: Long!
+    endMarkerTime: DateTime
+    endUser: ApplicationUser
+    endUserID: String
+    markerType: MarkerType!
+    markerTypeID: Long!
+    modificationTime: DateTime
+    modifyingUserID: String
+    person: Person
+    personID: Long
+    startMarkerTime: DateTime!
+    startUser: ApplicationUser
+    startUserID: String
+    userPersonMarkerID: Long!
+    userPersonMarkerPersonVariables: [UserPersonMarkerPersonVariable!]!
+}
+
+"A connection to a list of items."
+type UserPersonMarkerConnection {
+    "A list of edges."
+    edges: [UserPersonMarkerEdge!]
+    "A flattened list of the nodes."
+    nodes: [UserPersonMarker!]
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type UserPersonMarkerEdge {
+    "A cursor for use in pagination."
+    cursor: String!
+    "The item at the end of the edge."
+    node: UserPersonMarker!
+}
+
+type UserPersonMarkerPersonVariable {
+    modificationTime: DateTime
+    modifyingUserID: String
+    personVariable: PersonVariable!
+    personVariableID: Long!
+    userPersonMarker: UserPersonMarker!
+    userPersonMarkerID: Long!
+}
+
+type UserTerritory {
+    active: Boolean!
+    cargo: String!
+    modificationTime: DateTime
+    modifyingUserID: String
+    territory: Territory!
+    territoryID: Long!
+    user: ApplicationUser!
+    userID: String!
+}
+
+type VariableType {
+    accessibility: Accessibility!
+    application: Application!
+    applicationID: Long!
+    calculationCode: String
+    conditionCode: String
+    dataType: DataType!
+    description: String!
+    destinationConditionDependencies: [VariableTypeConditionDependency!]!
+    enumGroup: EnumGroup
+    enumGroupID: Long
+    list: VariableType
+    listID: Long
+    listedVariableTypes: [VariableType!]!
+    modificationTime: DateTime
+    modifyingUser: ApplicationUser
+    modifyingUserID: String
+    name: String!
+    originConditionDependencies: [VariableTypeConditionDependency!]!
+    personVariables: [PersonVariable!]!
+    suscriptionTerritories: [SuscriptionTerritory!]!
+    variableTypeID: Long!
+}
+
+type VariableTypeConditionDependency {
+    dependencyDestinationID: Long!
+    dependencyOriginID: Long!
+    destinationDependency: VariableType!
+    modificationTime: DateTime
+    modifyingUser: ApplicationUser
+    modifyingUserID: String
+    originDependency: VariableType!
+}
+
+"A connection to a list of items."
+type VariableTypesConnection {
+    "A list of edges."
+    edges: [VariableTypesEdge!]
+    "A flattened list of the nodes."
+    nodes: [VariableType!]
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type VariableTypesEdge {
+    "A cursor for use in pagination."
+    cursor: String!
+    "The item at the end of the edge."
+    node: VariableType!
+}
+
+enum Accessibility {
     PRIVATE
     PUBLIC
+    SUPERVISOR
 }
 
-"The `Upload` scalar type represents a file upload."
-scalar Upload
-
-input FilterCharacter {
-    gender: String
-    name: String
-    species: String
-    status: String
-    type: String
+enum CohabitantType {
+    BIOLOGICAL
+    NON_BIOLOGICAL
 }
 
-input FilterEpisode {
-    episode: String
+enum DataType {
+    BOOL
+    CALCULATED
+    DATE_TIME
+    DECIMAL
+    DOUBLE
+    ENUM
+    FILE
+    LIST
+    LONG
+    NONE
+    PERSON
+    RELATIVE_LOCATION
+    STRING
+    SUSCRIPTION
+}
+
+enum MarkerMode {
+    APP_CENTRIC
+    ATTENTION
+    GENERAL
+    USER_CENTRIC
+}
+
+enum Permission {
+    APPLICATION_CREATION
+    APPLICATION_DELETION
+    APPLICATION_MODIFICATION
+    AREA_CREATION
+    AREA_DELETION
+    AREA_MODIFICATION
+    BRANCH_CREATION
+    BRANCH_DELETION
+    BRANCH_GROUP_REQUEST
+    BRANCH_MODIFICATION
+    BRANCH_TERRITORY_CREATION
+    BRANCH_TERRITORY_DELETION
+    BRANCH_TERRITORY_MODIFICATION
+    COHABITANT_CREATION
+    COHABITANT_DELETION
+    COHABITANT_MODIFICATION
+    FULL_GROUP_QUERY
+    FULL_INDIVIDUAL_REQUEST
+    FULL_USER_MANAGEMENT
+    INDIVIDUAL_REQUEST
+    MUNICIPALITY_CREATION
+    MUNICIPALITY_DELETION
+    MUNICIPALITY_MODIFICATION
+    NO_EVALUATION
+    NO_SESSION
+    PERSON_CREATION
+    PERSON_DELETION
+    PERSON_MODIFICATION
+    PERSON_STATUS_CREATION
+    PERSON_STATUS_DELETION
+    PERSON_STATUS_MODIFICATION
+    PERSON_VARIABLE_CREATION
+    PERSON_VARIABLE_DELETION
+    PERSON_VARIABLE_FULL_INDIVIDUAL_CREATION
+    PERSON_VARIABLE_FULL_INDIVIDUAL_DELETION
+    PERSON_VARIABLE_FULL_INDIVIDUAL_MODIFICATION
+    PERSON_VARIABLE_INDIVIDUAL_CREATION
+    PERSON_VARIABLE_INDIVIDUAL_DELETION
+    PERSON_VARIABLE_INDIVIDUAL_MODIFICATION
+    PERSON_VARIABLE_MODIFICATION
+    PROVINCE_CREATION
+    PROVINCE_DELETION
+    PROVINCE_MODIFICATION
+    QUERY_APROVAL
+    QUERY_INDEX
+    RECORD_CREATION
+    ROLE_CREATION
+    ROLE_DELETION
+    ROLE_MODIFICATION
+    ROLE_PERMISSION_CREATION
+    ROLE_PERMISSION_DELETION
+    ROLE_PERMISSION_MODIFICATION
+    SUBSCRIPTION_DELETION
+    SUBSCRIPTION_MODIFICATION
+    SUBSCRIPTION_READ
+    SUBSCRIPTION_TERRITORY_DELETION
+    SUBSCRIPTION_TERRITORY_MODIFICATION
+    SUBSRIPTION_CREATION
+    SUBSRIPTION_TERRITORY_CREATION
+    TERRITORY_CREATION
+    TERRITORY_DELETION
+    TERRITORY_MEMBER_SUPERVISION
+    TERRITORY_MODIFICATION
+    TERRITORY_ROLE_CREATION
+    TERRITORY_ROLE_DELETION
+    TERRITORY_ROLE_MODIFICATION
+    USER_MANAGEMENT
+    USER_TERRITORY_CREATION
+    USER_TERRITORY_DELETION
+    USER_TERRITORY_MODIFICATION
+    VARIABLE_TYPE_CREATION
+    VARIABLE_TYPE_DELETION
+    VARIABLE_TYPE_MODIFICATION
+}
+
+enum SortEnumType {
+    ASC
+    DESC
+}
+
+"The `DateTime` scalar represents an ISO-8601 compliant date time type."
+scalar DateTime
+
+"The built-in `Decimal` scalar type."
+scalar Decimal
+
+"The `Long` scalar type represents non-fractional signed whole 64-bit numeric values. Long can represent values between -(2^63) and 2^63 - 1."
+scalar Long
+
+input AccessibilityOperationFilterInput {
+    eq: Accessibility
+    in: [Accessibility!]
+    neq: Accessibility
+    nin: [Accessibility!]
+}
+
+input ApplicationFilterInput {
+    aPIKey: StringOperationFilterInput
+    active: BooleanOperationFilterInput
+    and: [ApplicationFilterInput!]
+    applicationID: ComparableInt64OperationFilterInput
+    applicationVariables: ListFilterInputTypeOfVariableTypeFilterInput
+    description: StringOperationFilterInput
+    minimumVersion: StringOperationFilterInput
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUser: ApplicationUserFilterInput
+    modifyingUserID: StringOperationFilterInput
+    nombre: StringOperationFilterInput
+    or: [ApplicationFilterInput!]
+    roles: ListFilterInputTypeOfApplicationRoleFilterInput
+    siglas: StringOperationFilterInput
+    userPersonMarkers: ListFilterInputTypeOfUserPersonMarkerFilterInput
+}
+
+input ApplicationRoleFilterInput {
+    and: [ApplicationRoleFilterInput!]
+    application: ApplicationFilterInput
+    applicationId: ComparableInt64OperationFilterInput
+    concurrencyStamp: StringOperationFilterInput
+    id: StringOperationFilterInput
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUser: ApplicationUserFilterInput
+    modifyingUserID: StringOperationFilterInput
+    name: StringOperationFilterInput
+    normalizedName: StringOperationFilterInput
+    or: [ApplicationRoleFilterInput!]
+    permissions: ListFilterInputTypeOfRolePermissionFilterInput
+    territoryGroupRoles: ListFilterInputTypeOfTerritoryGroupRoleFilterInput
+    territoryRoles: ListFilterInputTypeOfTerritoryRoleFilterInput
+}
+
+input ApplicationRoleSortInput {
+    application: ApplicationSortInput
+    applicationId: SortEnumType
+    concurrencyStamp: SortEnumType
+    id: SortEnumType
+    modificationTime: SortEnumType
+    modifyingUser: ApplicationUserSortInput
+    modifyingUserID: SortEnumType
+    name: SortEnumType
+    normalizedName: SortEnumType
+}
+
+input ApplicationSortInput {
+    aPIKey: SortEnumType
+    active: SortEnumType
+    applicationID: SortEnumType
+    description: SortEnumType
+    minimumVersion: SortEnumType
+    modificationTime: SortEnumType
+    modifyingUser: ApplicationUserSortInput
+    modifyingUserID: SortEnumType
+    nombre: SortEnumType
+    siglas: SortEnumType
+}
+
+input ApplicationUserFilterInput {
+    accessFailedCount: ComparableInt32OperationFilterInput
+    and: [ApplicationUserFilterInput!]
+    applications: ListFilterInputTypeOfApplicationFilterInput
+    concurrencyStamp: StringOperationFilterInput
+    email: StringOperationFilterInput
+    emailConfirmed: BooleanOperationFilterInput
+    endUserPersonMarkers: ListFilterInputTypeOfUserPersonMarkerFilterInput
+    id: StringOperationFilterInput
+    lockoutEnabled: BooleanOperationFilterInput
+    lockoutEnd: ComparableNullableOfDateTimeOffsetOperationFilterInput
+    menores: ListFilterInputTypeOfPersonFilterInput
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUser: ApplicationUserFilterInput
+    modifyingUserID: StringOperationFilterInput
+    normalizedEmail: StringOperationFilterInput
+    normalizedUserName: StringOperationFilterInput
+    or: [ApplicationUserFilterInput!]
+    passwordHash: StringOperationFilterInput
+    phoneNumber: StringOperationFilterInput
+    phoneNumberConfirmed: BooleanOperationFilterInput
+    securityStamp: StringOperationFilterInput
+    startUserPersonMarkers: ListFilterInputTypeOfUserPersonMarkerFilterInput
+    twoFactorEnabled: BooleanOperationFilterInput
+    userName: StringOperationFilterInput
+    userTerritories: ListFilterInputTypeOfUserTerritoryFilterInput
+}
+
+input ApplicationUserSortInput {
+    accessFailedCount: SortEnumType
+    concurrencyStamp: SortEnumType
+    email: SortEnumType
+    emailConfirmed: SortEnumType
+    id: SortEnumType
+    lockoutEnabled: SortEnumType
+    lockoutEnd: SortEnumType
+    modificationTime: SortEnumType
+    modifyingUser: ApplicationUserSortInput
+    modifyingUserID: SortEnumType
+    normalizedEmail: SortEnumType
+    normalizedUserName: SortEnumType
+    passwordHash: SortEnumType
+    phoneNumber: SortEnumType
+    phoneNumberConfirmed: SortEnumType
+    securityStamp: SortEnumType
+    twoFactorEnabled: SortEnumType
+    userName: SortEnumType
+}
+
+input AreaFilterInput {
+    and: [AreaFilterInput!]
+    areaID: ComparableInt64OperationFilterInput
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUserID: StringOperationFilterInput
+    municipality: MunicipalityFilterInput
+    municipalityID: ComparableInt64OperationFilterInput
+    name: StringOperationFilterInput
+    or: [AreaFilterInput!]
+    relativeLocations: ListFilterInputTypeOfRelativeLocationFilterInput
+}
+
+input AreaSortInput {
+    areaID: SortEnumType
+    modificationTime: SortEnumType
+    modifyingUserID: SortEnumType
+    municipality: MunicipalitySortInput
+    municipalityID: SortEnumType
+    name: SortEnumType
+}
+
+input BooleanOperationFilterInput {
+    eq: Boolean
+    neq: Boolean
+}
+
+input CohabitantFilterInput {
+    and: [CohabitantFilterInput!]
+    cohabitantID: ComparableInt64OperationFilterInput
+    cohabitantType: CohabitantTypeOperationFilterInput
+    description: StringOperationFilterInput
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUserID: StringOperationFilterInput
+    name: StringOperationFilterInput
+    or: [CohabitantFilterInput!]
+    personVariables: ListFilterInputTypeOfPersonVariableFilterInput
+}
+
+input CohabitantSortInput {
+    cohabitantID: SortEnumType
+    cohabitantType: SortEnumType
+    description: SortEnumType
+    modificationTime: SortEnumType
+    modifyingUserID: SortEnumType
+    name: SortEnumType
+}
+
+input CohabitantTypeOperationFilterInput {
+    eq: CohabitantType
+    in: [CohabitantType!]
+    neq: CohabitantType
+    nin: [CohabitantType!]
+}
+
+input ComparableDateTimeOperationFilterInput {
+    eq: DateTime
+    gt: DateTime
+    gte: DateTime
+    in: [DateTime!]
+    lt: DateTime
+    lte: DateTime
+    neq: DateTime
+    ngt: DateTime
+    ngte: DateTime
+    nin: [DateTime!]
+    nlt: DateTime
+    nlte: DateTime
+}
+
+input ComparableInt32OperationFilterInput {
+    eq: Int
+    gt: Int
+    gte: Int
+    in: [Int!]
+    lt: Int
+    lte: Int
+    neq: Int
+    ngt: Int
+    ngte: Int
+    nin: [Int!]
+    nlt: Int
+    nlte: Int
+}
+
+input ComparableInt64OperationFilterInput {
+    eq: Long
+    gt: Long
+    gte: Long
+    in: [Long!]
+    lt: Long
+    lte: Long
+    neq: Long
+    ngt: Long
+    ngte: Long
+    nin: [Long!]
+    nlt: Long
+    nlte: Long
+}
+
+input ComparableNullableOfDateTimeOffsetOperationFilterInput {
+    eq: DateTime
+    gt: DateTime
+    gte: DateTime
+    in: [DateTime]
+    lt: DateTime
+    lte: DateTime
+    neq: DateTime
+    ngt: DateTime
+    ngte: DateTime
+    nin: [DateTime]
+    nlt: DateTime
+    nlte: DateTime
+}
+
+input ComparableNullableOfDateTimeOperationFilterInput {
+    eq: DateTime
+    gt: DateTime
+    gte: DateTime
+    in: [DateTime]
+    lt: DateTime
+    lte: DateTime
+    neq: DateTime
+    ngt: DateTime
+    ngte: DateTime
+    nin: [DateTime]
+    nlt: DateTime
+    nlte: DateTime
+}
+
+input ComparableNullableOfDecimalOperationFilterInput {
+    eq: Decimal
+    gt: Decimal
+    gte: Decimal
+    in: [Decimal]
+    lt: Decimal
+    lte: Decimal
+    neq: Decimal
+    ngt: Decimal
+    ngte: Decimal
+    nin: [Decimal]
+    nlt: Decimal
+    nlte: Decimal
+}
+
+input ComparableNullableOfInt64OperationFilterInput {
+    eq: Long
+    gt: Long
+    gte: Long
+    in: [Long]
+    lt: Long
+    lte: Long
+    neq: Long
+    ngt: Long
+    ngte: Long
+    nin: [Long]
+    nlt: Long
+    nlte: Long
+}
+
+input CreateApplicationInput {
+    aPIKey: String!
+    active: Boolean!
+    applicationID: Long!
+    description: String!
+    nombre: String!
+    siglas: String!
+}
+
+input CreateApplicationRoleInput {
+    concurrencyStamp: String
+    id: String
+    name: String
+    normalizedName: String
+}
+
+input CreateAreaInput {
+    areaID: Long!
+    municipalityID: Long!
+    name: String!
+}
+
+input CreateCohabitantInput {
+    cohabitantID: Long!
+    cohabitantType: CohabitantType!
+    description: String!
+    name: String!
+}
+
+input CreateEnumGroupInput {
+    enumGroupID: Long!
     name: String
 }
 
-input FilterLocation {
-    dimension: String
+input CreateEnumItemInput {
+    enumGroupID: Long!
     name: String
-    type: String
+}
+
+input CreateMunicipalityInput {
+    municipalityID: Long!
+    name: String!
+    provinceID: Long!
+}
+
+input CreatePersonInput {
+    apellidos: String
+    cI: String
+    nombre: String
+    personID: Long!
+    statusID: Long
+    tutorCI: String
+}
+
+input CreatePersonStatusInput {
+    description: String!
+    personStatusID: Long!
+    status: String!
+}
+
+input CreatePersonVariableInput {
+    boolValue: Boolean
+    cohabitantID: Long
+    decimalValue: Decimal
+    doubleValue: Decimal
+    enumValue: String
+    lastValue: Boolean!
+    longValue: Decimal
+    personID: Long!
+    personVariableID: Long!
+    relativeLocationID: Long
+    stringValue: String
+    territoryID: Long!
+    variableTypeID: Long!
+}
+
+input CreateProvinceInput {
+    name: String!
+    provinceID: Long!
+}
+
+input CreateRolePermissionInput {
+    permission: Permission!
+    roleID: String!
+}
+
+input CreateSectionInput {
+    name: String!
+    sectionID: Long!
+}
+
+input CreateTerritoryInput {
+    name: String!
+    sectionID: Long!
+    territoryID: Long!
+}
+
+input CreateTerritoryRoleInput {
+    roleID: String!
+    territoryID: Long!
+}
+
+input CreateUserTerritoryInput {
+    active: Boolean!
+    cargo: String!
+    territoryID: Long!
+    userID: String!
+}
+
+input CreateVariableTypeConditionDependencyInput {
+    dependencyDestinationID: Long!
+    dependencyOriginID: Long!
+}
+
+input CreateVariableTypeInput {
+    accessibility: Accessibility!
+    applicationID: Long!
+    calculationCode: String
+    conditionCode: String
+    dataType: DataType!
+    description: String!
+    enumGroupID: Long
+    listID: Long
+    name: String!
+    variableTypeID: Long!
+}
+
+input DataTypeOperationFilterInput {
+    eq: DataType
+    in: [DataType!]
+    neq: DataType
+    nin: [DataType!]
+}
+
+input EnumGroupFilterInput {
+    and: [EnumGroupFilterInput!]
+    enumGroupID: ComparableInt64OperationFilterInput
+    enumItems: ListFilterInputTypeOfEnumItemFilterInput
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUserID: StringOperationFilterInput
+    name: StringOperationFilterInput
+    or: [EnumGroupFilterInput!]
+    variableTypes: ListFilterInputTypeOfVariableTypeFilterInput
+}
+
+input EnumGroupSortInput {
+    enumGroupID: SortEnumType
+    modificationTime: SortEnumType
+    modifyingUserID: SortEnumType
+    name: SortEnumType
+}
+
+input EnumItemFilterInput {
+    and: [EnumItemFilterInput!]
+    enumGroup: EnumGroupFilterInput
+    enumGroupID: ComparableInt64OperationFilterInput
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUserID: StringOperationFilterInput
+    name: StringOperationFilterInput
+    or: [EnumItemFilterInput!]
+    personVariables: ListFilterInputTypeOfPersonVariableFilterInput
+}
+
+input EnumItemSortInput {
+    enumGroup: EnumGroupSortInput
+    enumGroupID: SortEnumType
+    modificationTime: SortEnumType
+    modifyingUserID: SortEnumType
+    name: SortEnumType
+}
+
+input ListFilterInputTypeOfApplicationFilterInput {
+    all: ApplicationFilterInput
+    any: Boolean
+    none: ApplicationFilterInput
+    some: ApplicationFilterInput
+}
+
+input ListFilterInputTypeOfApplicationRoleFilterInput {
+    all: ApplicationRoleFilterInput
+    any: Boolean
+    none: ApplicationRoleFilterInput
+    some: ApplicationRoleFilterInput
+}
+
+input ListFilterInputTypeOfAreaFilterInput {
+    all: AreaFilterInput
+    any: Boolean
+    none: AreaFilterInput
+    some: AreaFilterInput
+}
+
+input ListFilterInputTypeOfEnumItemFilterInput {
+    all: EnumItemFilterInput
+    any: Boolean
+    none: EnumItemFilterInput
+    some: EnumItemFilterInput
+}
+
+input ListFilterInputTypeOfMunicipalityFilterInput {
+    all: MunicipalityFilterInput
+    any: Boolean
+    none: MunicipalityFilterInput
+    some: MunicipalityFilterInput
+}
+
+input ListFilterInputTypeOfPersonFilterInput {
+    all: PersonFilterInput
+    any: Boolean
+    none: PersonFilterInput
+    some: PersonFilterInput
+}
+
+input ListFilterInputTypeOfPersonVariableFilterInput {
+    all: PersonVariableFilterInput
+    any: Boolean
+    none: PersonVariableFilterInput
+    some: PersonVariableFilterInput
+}
+
+input ListFilterInputTypeOfRelativeLocationFilterInput {
+    all: RelativeLocationFilterInput
+    any: Boolean
+    none: RelativeLocationFilterInput
+    some: RelativeLocationFilterInput
+}
+
+input ListFilterInputTypeOfRolePermissionFilterInput {
+    all: RolePermissionFilterInput
+    any: Boolean
+    none: RolePermissionFilterInput
+    some: RolePermissionFilterInput
+}
+
+input ListFilterInputTypeOfSuscriptionTerritoryFilterInput {
+    all: SuscriptionTerritoryFilterInput
+    any: Boolean
+    none: SuscriptionTerritoryFilterInput
+    some: SuscriptionTerritoryFilterInput
+}
+
+input ListFilterInputTypeOfTerritoryFilterInput {
+    all: TerritoryFilterInput
+    any: Boolean
+    none: TerritoryFilterInput
+    some: TerritoryFilterInput
+}
+
+input ListFilterInputTypeOfTerritoryGroupRoleFilterInput {
+    all: TerritoryGroupRoleFilterInput
+    any: Boolean
+    none: TerritoryGroupRoleFilterInput
+    some: TerritoryGroupRoleFilterInput
+}
+
+input ListFilterInputTypeOfTerritoryGroupTerritoryFilterInput {
+    all: TerritoryGroupTerritoryFilterInput
+    any: Boolean
+    none: TerritoryGroupTerritoryFilterInput
+    some: TerritoryGroupTerritoryFilterInput
+}
+
+input ListFilterInputTypeOfTerritoryRoleFilterInput {
+    all: TerritoryRoleFilterInput
+    any: Boolean
+    none: TerritoryRoleFilterInput
+    some: TerritoryRoleFilterInput
+}
+
+input ListFilterInputTypeOfUserPersonMarkerFilterInput {
+    all: UserPersonMarkerFilterInput
+    any: Boolean
+    none: UserPersonMarkerFilterInput
+    some: UserPersonMarkerFilterInput
+}
+
+input ListFilterInputTypeOfUserPersonMarkerPersonVariableFilterInput {
+    all: UserPersonMarkerPersonVariableFilterInput
+    any: Boolean
+    none: UserPersonMarkerPersonVariableFilterInput
+    some: UserPersonMarkerPersonVariableFilterInput
+}
+
+input ListFilterInputTypeOfUserTerritoryFilterInput {
+    all: UserTerritoryFilterInput
+    any: Boolean
+    none: UserTerritoryFilterInput
+    some: UserTerritoryFilterInput
+}
+
+input ListFilterInputTypeOfVariableTypeConditionDependencyFilterInput {
+    all: VariableTypeConditionDependencyFilterInput
+    any: Boolean
+    none: VariableTypeConditionDependencyFilterInput
+    some: VariableTypeConditionDependencyFilterInput
+}
+
+input ListFilterInputTypeOfVariableTypeFilterInput {
+    all: VariableTypeFilterInput
+    any: Boolean
+    none: VariableTypeFilterInput
+    some: VariableTypeFilterInput
+}
+
+input MarkerModeOperationFilterInput {
+    eq: MarkerMode
+    in: [MarkerMode!]
+    neq: MarkerMode
+    nin: [MarkerMode!]
+}
+
+input MarkerTypeFilterInput {
+    and: [MarkerTypeFilterInput!]
+    markerMode: MarkerModeOperationFilterInput
+    markerTypeID: ComparableInt64OperationFilterInput
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUserID: StringOperationFilterInput
+    name: StringOperationFilterInput
+    or: [MarkerTypeFilterInput!]
+    userPersonMarkers: ListFilterInputTypeOfUserPersonMarkerFilterInput
+}
+
+input MarkerTypeSortInput {
+    markerMode: SortEnumType
+    markerTypeID: SortEnumType
+    modificationTime: SortEnumType
+    modifyingUserID: SortEnumType
+    name: SortEnumType
+}
+
+input MunicipalityFilterInput {
+    and: [MunicipalityFilterInput!]
+    areas: ListFilterInputTypeOfAreaFilterInput
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUserID: StringOperationFilterInput
+    municipalityID: ComparableInt64OperationFilterInput
+    name: StringOperationFilterInput
+    or: [MunicipalityFilterInput!]
+    province: ProvinceFilterInput
+    provinceID: ComparableInt64OperationFilterInput
+}
+
+input MunicipalitySortInput {
+    modificationTime: SortEnumType
+    modifyingUserID: SortEnumType
+    municipalityID: SortEnumType
+    name: SortEnumType
+    province: ProvinceSortInput
+    provinceID: SortEnumType
+}
+
+input PermissionOperationFilterInput {
+    eq: Permission
+    in: [Permission!]
+    neq: Permission
+    nin: [Permission!]
+}
+
+input PersonFilterInput {
+    and: [PersonFilterInput!]
+    apellidos: StringOperationFilterInput
+    cI: StringOperationFilterInput
+    isFamily: BooleanOperationFilterInput
+    isFather: BooleanOperationFilterInput
+    isMother: BooleanOperationFilterInput
+    isSon: BooleanOperationFilterInput
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUser: ApplicationUserFilterInput
+    modifyingUserID: StringOperationFilterInput
+    nombre: StringOperationFilterInput
+    or: [PersonFilterInput!]
+    personID: ComparableInt64OperationFilterInput
+    personStatus: PersonStatusFilterInput
+    personVariables: ListFilterInputTypeOfPersonVariableFilterInput
+    referredPersonVariableValues: ListFilterInputTypeOfPersonVariableFilterInput
+    statusID: ComparableNullableOfInt64OperationFilterInput
+    tutorCI: StringOperationFilterInput
+    userPersonMarkers: ListFilterInputTypeOfUserPersonMarkerFilterInput
+}
+
+input PersonSortInput {
+    apellidos: SortEnumType
+    cI: SortEnumType
+    isFamily: SortEnumType
+    isFather: SortEnumType
+    isMother: SortEnumType
+    isSon: SortEnumType
+    modificationTime: SortEnumType
+    modifyingUser: ApplicationUserSortInput
+    modifyingUserID: SortEnumType
+    nombre: SortEnumType
+    personID: SortEnumType
+    personStatus: PersonStatusSortInput
+    statusID: SortEnumType
+    tutorCI: SortEnumType
+}
+
+input PersonStatusFilterInput {
+    and: [PersonStatusFilterInput!]
+    description: StringOperationFilterInput
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUserID: StringOperationFilterInput
+    or: [PersonStatusFilterInput!]
+    people: ListFilterInputTypeOfPersonFilterInput
+    personStatusID: ComparableInt64OperationFilterInput
+    status: StringOperationFilterInput
+}
+
+input PersonStatusSortInput {
+    description: SortEnumType
+    modificationTime: SortEnumType
+    modifyingUserID: SortEnumType
+    personStatusID: SortEnumType
+    status: SortEnumType
+}
+
+input PersonVariableFilterInput {
+    and: [PersonVariableFilterInput!]
+    boolValue: BooleanOperationFilterInput
+    calculatedValue: StringOperationFilterInput
+    calculatedValueTime: ComparableNullableOfDateTimeOperationFilterInput
+    calculatedValueType: StringOperationFilterInput
+    cohabitant: CohabitantFilterInput
+    cohabitantID: ComparableNullableOfInt64OperationFilterInput
+    dateTimeValue: BooleanOperationFilterInput
+    decimalValue: ComparableNullableOfDecimalOperationFilterInput
+    doubleValue: ComparableNullableOfDecimalOperationFilterInput
+    enumGroupID: ComparableNullableOfInt64OperationFilterInput
+    enumItem: EnumItemFilterInput
+    enumValue: StringOperationFilterInput
+    fileValue: BooleanOperationFilterInput
+    lastValue: BooleanOperationFilterInput
+    longValue: ComparableNullableOfDecimalOperationFilterInput
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUserID: StringOperationFilterInput
+    or: [PersonVariableFilterInput!]
+    person: PersonFilterInput
+    personID: ComparableNullableOfInt64OperationFilterInput
+    personValue: PersonFilterInput
+    personValueID: ComparableNullableOfInt64OperationFilterInput
+    personVariableID: ComparableInt64OperationFilterInput
+    relativeLocation: RelativeLocationFilterInput
+    relativeLocationID: ComparableNullableOfInt64OperationFilterInput
+    stringValue: StringOperationFilterInput
+    territory: TerritoryFilterInput
+    territoryID: ComparableInt64OperationFilterInput
+    userPersonMarkerPersonVariables: ListFilterInputTypeOfUserPersonMarkerPersonVariableFilterInput
+    variableType: VariableTypeFilterInput
+    variableTypeID: ComparableInt64OperationFilterInput
+}
+
+input PersonVariableSortInput {
+    boolValue: SortEnumType
+    calculatedValue: SortEnumType
+    calculatedValueTime: SortEnumType
+    calculatedValueType: SortEnumType
+    cohabitant: CohabitantSortInput
+    cohabitantID: SortEnumType
+    dateTimeValue: SortEnumType
+    decimalValue: SortEnumType
+    doubleValue: SortEnumType
+    enumGroupID: SortEnumType
+    enumItem: EnumItemSortInput
+    enumValue: SortEnumType
+    fileValue: SortEnumType
+    lastValue: SortEnumType
+    longValue: SortEnumType
+    modificationTime: SortEnumType
+    modifyingUserID: SortEnumType
+    person: PersonSortInput
+    personID: SortEnumType
+    personValue: PersonSortInput
+    personValueID: SortEnumType
+    personVariableID: SortEnumType
+    relativeLocation: RelativeLocationSortInput
+    relativeLocationID: SortEnumType
+    stringValue: SortEnumType
+    territory: TerritorySortInput
+    territoryID: SortEnumType
+    variableType: VariableTypeSortInput
+    variableTypeID: SortEnumType
+}
+
+input ProvinceFilterInput {
+    and: [ProvinceFilterInput!]
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUserID: StringOperationFilterInput
+    municipalities: ListFilterInputTypeOfMunicipalityFilterInput
+    name: StringOperationFilterInput
+    or: [ProvinceFilterInput!]
+    provinceID: ComparableInt64OperationFilterInput
+}
+
+input ProvinceSortInput {
+    modificationTime: SortEnumType
+    modifyingUserID: SortEnumType
+    name: SortEnumType
+    provinceID: SortEnumType
+}
+
+input RelativeLocationFilterInput {
+    and: [RelativeLocationFilterInput!]
+    area: AreaFilterInput
+    areaID: ComparableInt64OperationFilterInput
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUserID: StringOperationFilterInput
+    name: StringOperationFilterInput
+    or: [RelativeLocationFilterInput!]
+    personVariables: ListFilterInputTypeOfPersonVariableFilterInput
+    relativeLocationID: ComparableInt64OperationFilterInput
+}
+
+input RelativeLocationSortInput {
+    area: AreaSortInput
+    areaID: SortEnumType
+    modificationTime: SortEnumType
+    modifyingUserID: SortEnumType
+    name: SortEnumType
+    relativeLocationID: SortEnumType
+}
+
+input RolePermissionFilterInput {
+    and: [RolePermissionFilterInput!]
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUser: ApplicationUserFilterInput
+    modifyingUserID: StringOperationFilterInput
+    or: [RolePermissionFilterInput!]
+    permission: PermissionOperationFilterInput
+    role: ApplicationRoleFilterInput
+    roleID: StringOperationFilterInput
+}
+
+input RolePermissionSortInput {
+    modificationTime: SortEnumType
+    modifyingUser: ApplicationUserSortInput
+    modifyingUserID: SortEnumType
+    permission: SortEnumType
+    role: ApplicationRoleSortInput
+    roleID: SortEnumType
+}
+
+input SectionFilterInput {
+    and: [SectionFilterInput!]
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUserID: StringOperationFilterInput
+    name: StringOperationFilterInput
+    or: [SectionFilterInput!]
+    sectionID: ComparableInt64OperationFilterInput
+    territories: ListFilterInputTypeOfTerritoryFilterInput
+}
+
+input SectionSortInput {
+    modificationTime: SortEnumType
+    modifyingUserID: SortEnumType
+    name: SortEnumType
+    sectionID: SortEnumType
+}
+
+input StringOperationFilterInput {
+    and: [StringOperationFilterInput!]
+    contains: String
+    endsWith: String
+    eq: String
+    in: [String]
+    ncontains: String
+    nendsWith: String
+    neq: String
+    nin: [String]
+    nstartsWith: String
+    or: [StringOperationFilterInput!]
+    startsWith: String
+}
+
+input SuscriptionTerritoryFilterInput {
+    and: [SuscriptionTerritoryFilterInput!]
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUserID: StringOperationFilterInput
+    or: [SuscriptionTerritoryFilterInput!]
+    territory: TerritoryFilterInput
+    territoryID: ComparableInt64OperationFilterInput
+    variableType: VariableTypeFilterInput
+    variableTypeID: ComparableInt64OperationFilterInput
+}
+
+input TerritoryFilterInput {
+    and: [TerritoryFilterInput!]
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUserID: StringOperationFilterInput
+    name: StringOperationFilterInput
+    or: [TerritoryFilterInput!]
+    personVariables: ListFilterInputTypeOfPersonVariableFilterInput
+    section: SectionFilterInput
+    sectionID: ComparableInt64OperationFilterInput
+    suscriptionTerritories: ListFilterInputTypeOfSuscriptionTerritoryFilterInput
+    territoryGroupTerritories: ListFilterInputTypeOfTerritoryGroupTerritoryFilterInput
+    territoryID: ComparableInt64OperationFilterInput
+    territoryRole: ListFilterInputTypeOfTerritoryRoleFilterInput
+    userTerritories: ListFilterInputTypeOfUserTerritoryFilterInput
+}
+
+input TerritoryGroupFilterInput {
+    and: [TerritoryGroupFilterInput!]
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUserID: StringOperationFilterInput
+    name: StringOperationFilterInput
+    or: [TerritoryGroupFilterInput!]
+    section: SectionFilterInput
+    sectionID: ComparableInt64OperationFilterInput
+    territoryGroupID: ComparableInt64OperationFilterInput
+    territoryGroupRoles: ListFilterInputTypeOfTerritoryGroupRoleFilterInput
+    territoryGroupTerritories: ListFilterInputTypeOfTerritoryGroupTerritoryFilterInput
+}
+
+input TerritoryGroupRoleFilterInput {
+    and: [TerritoryGroupRoleFilterInput!]
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUserID: StringOperationFilterInput
+    or: [TerritoryGroupRoleFilterInput!]
+    role: ApplicationRoleFilterInput
+    roleID: StringOperationFilterInput
+    territoryGroup: TerritoryGroupFilterInput
+    territoryGroupID: ComparableInt64OperationFilterInput
+}
+
+input TerritoryGroupTerritoryFilterInput {
+    and: [TerritoryGroupTerritoryFilterInput!]
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUserID: StringOperationFilterInput
+    or: [TerritoryGroupTerritoryFilterInput!]
+    territory: TerritoryFilterInput
+    territoryGroup: TerritoryGroupFilterInput
+    territoryGroupID: ComparableInt64OperationFilterInput
+    territoryID: ComparableInt64OperationFilterInput
+}
+
+input TerritoryRoleFilterInput {
+    and: [TerritoryRoleFilterInput!]
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUserID: StringOperationFilterInput
+    or: [TerritoryRoleFilterInput!]
+    role: ApplicationRoleFilterInput
+    roleID: StringOperationFilterInput
+    territory: TerritoryFilterInput
+    territoryID: ComparableInt64OperationFilterInput
+}
+
+input TerritoryRoleSortInput {
+    modificationTime: SortEnumType
+    modifyingUserID: SortEnumType
+    role: ApplicationRoleSortInput
+    roleID: SortEnumType
+    territory: TerritorySortInput
+    territoryID: SortEnumType
+}
+
+input TerritorySortInput {
+    modificationTime: SortEnumType
+    modifyingUserID: SortEnumType
+    name: SortEnumType
+    section: SectionSortInput
+    sectionID: SortEnumType
+    territoryID: SortEnumType
+}
+
+input UserPersonMarkerFilterInput {
+    and: [UserPersonMarkerFilterInput!]
+    application: ApplicationFilterInput
+    applicationID: ComparableInt64OperationFilterInput
+    endMarkerTime: ComparableNullableOfDateTimeOperationFilterInput
+    endUser: ApplicationUserFilterInput
+    endUserID: StringOperationFilterInput
+    markerType: MarkerTypeFilterInput
+    markerTypeID: ComparableInt64OperationFilterInput
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUserID: StringOperationFilterInput
+    or: [UserPersonMarkerFilterInput!]
+    person: PersonFilterInput
+    personID: ComparableNullableOfInt64OperationFilterInput
+    startMarkerTime: ComparableDateTimeOperationFilterInput
+    startUser: ApplicationUserFilterInput
+    startUserID: StringOperationFilterInput
+    userPersonMarkerID: ComparableInt64OperationFilterInput
+    userPersonMarkerPersonVariables: ListFilterInputTypeOfUserPersonMarkerPersonVariableFilterInput
+}
+
+input UserPersonMarkerPersonVariableFilterInput {
+    and: [UserPersonMarkerPersonVariableFilterInput!]
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUserID: StringOperationFilterInput
+    or: [UserPersonMarkerPersonVariableFilterInput!]
+    personVariable: PersonVariableFilterInput
+    personVariableID: ComparableInt64OperationFilterInput
+    userPersonMarker: UserPersonMarkerFilterInput
+    userPersonMarkerID: ComparableInt64OperationFilterInput
+}
+
+input UserPersonMarkerSortInput {
+    application: ApplicationSortInput
+    applicationID: SortEnumType
+    endMarkerTime: SortEnumType
+    endUser: ApplicationUserSortInput
+    endUserID: SortEnumType
+    markerType: MarkerTypeSortInput
+    markerTypeID: SortEnumType
+    modificationTime: SortEnumType
+    modifyingUserID: SortEnumType
+    person: PersonSortInput
+    personID: SortEnumType
+    startMarkerTime: SortEnumType
+    startUser: ApplicationUserSortInput
+    startUserID: SortEnumType
+    userPersonMarkerID: SortEnumType
+}
+
+input UserTerritoryFilterInput {
+    active: BooleanOperationFilterInput
+    and: [UserTerritoryFilterInput!]
+    cargo: StringOperationFilterInput
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUserID: StringOperationFilterInput
+    or: [UserTerritoryFilterInput!]
+    territory: TerritoryFilterInput
+    territoryID: ComparableInt64OperationFilterInput
+    user: ApplicationUserFilterInput
+    userID: StringOperationFilterInput
+}
+
+input VariableTypeConditionDependencyFilterInput {
+    and: [VariableTypeConditionDependencyFilterInput!]
+    dependencyDestinationID: ComparableInt64OperationFilterInput
+    dependencyOriginID: ComparableInt64OperationFilterInput
+    destinationDependency: VariableTypeFilterInput
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUser: ApplicationUserFilterInput
+    modifyingUserID: StringOperationFilterInput
+    or: [VariableTypeConditionDependencyFilterInput!]
+    originDependency: VariableTypeFilterInput
+}
+
+input VariableTypeFilterInput {
+    accessibility: AccessibilityOperationFilterInput
+    and: [VariableTypeFilterInput!]
+    application: ApplicationFilterInput
+    applicationID: ComparableInt64OperationFilterInput
+    calculationCode: StringOperationFilterInput
+    conditionCode: StringOperationFilterInput
+    dataType: DataTypeOperationFilterInput
+    description: StringOperationFilterInput
+    destinationConditionDependencies: ListFilterInputTypeOfVariableTypeConditionDependencyFilterInput
+    enumGroup: EnumGroupFilterInput
+    enumGroupID: ComparableNullableOfInt64OperationFilterInput
+    list: VariableTypeFilterInput
+    listID: ComparableNullableOfInt64OperationFilterInput
+    listedVariableTypes: ListFilterInputTypeOfVariableTypeFilterInput
+    modificationTime: ComparableNullableOfDateTimeOperationFilterInput
+    modifyingUser: ApplicationUserFilterInput
+    modifyingUserID: StringOperationFilterInput
+    name: StringOperationFilterInput
+    or: [VariableTypeFilterInput!]
+    originConditionDependencies: ListFilterInputTypeOfVariableTypeConditionDependencyFilterInput
+    personVariables: ListFilterInputTypeOfPersonVariableFilterInput
+    suscriptionTerritories: ListFilterInputTypeOfSuscriptionTerritoryFilterInput
+    variableTypeID: ComparableInt64OperationFilterInput
+}
+
+input VariableTypeSortInput {
+    accessibility: SortEnumType
+    application: ApplicationSortInput
+    applicationID: SortEnumType
+    calculationCode: SortEnumType
+    conditionCode: SortEnumType
+    dataType: SortEnumType
+    description: SortEnumType
+    enumGroup: EnumGroupSortInput
+    enumGroupID: SortEnumType
+    list: VariableTypeSortInput
+    listID: SortEnumType
+    modificationTime: SortEnumType
+    modifyingUser: ApplicationUserSortInput
+    modifyingUserID: SortEnumType
+    name: SortEnumType
+    variableTypeID: SortEnumType
 }

@@ -6,5 +6,5 @@ targets:
           clients:
             - graphql
             - graphql_flutter
-          outputDirectory: /lib/repository
-          assetsPath: /lib/graphql/**
+          outputDirectory: __generated
+#          assetsPath: graphql/**

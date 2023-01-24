@@ -1,0 +1,3 @@
+mutation BasicTestSeed{
+    basicTestSeed(userID: "341f281b-5587-4792-9573-40ae5930025d")
+}
